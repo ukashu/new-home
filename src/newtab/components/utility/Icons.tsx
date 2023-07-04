@@ -6,6 +6,6 @@ type Props = {
 
 export default function Icons() {
   return (
-    <AiFillBook size="2.5em"/>
+    <AiFillBook size="3em"/>
   )
 }

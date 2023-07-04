@@ -3,12 +3,12 @@ import "~style.css"
 
 import Tick from "./utility/Tick"
 import Icons from "./utility/Icons"
+import Tooltip from "./utility/Tooltip"
 import React from "react"
 import { Storage } from "@plasmohq/storage"
 
 type Props = {
   name: string,
-  completed: boolean,
   columns: Array<string>
 }
 
@@ -26,12 +26,6 @@ export default function Habit(props: Props) {
   const storage = new Storage({
     area: "local"
   })
-
-  //getSavedInStorage
-  const readHabitData = async() => {
-    let data = await storage.get(props.name)
-    return data
-  }
 
   const initStorage = async() => {
     await storage.set(props.name, [])
@@ -60,11 +54,12 @@ export default function Habit(props: Props) {
     }
     return setTicks(rows)
   }
-
+  
   return (
-      <div className="flex flex-row h-2.5em w-full items-center justify-around">
-        <Icons/>
-        {/* <button className="w-20 h-20 bg-red-600" onClick={() => {generateTics()}}></button> */}
+      <div className="flex flex-row h-[3em] w-full items-center justify-around">
+        <Tooltip message={props.name}>
+          <Icons/>
+        </Tooltip>
         {ticks}
       </div>
   )
