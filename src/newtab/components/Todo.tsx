@@ -4,7 +4,12 @@ import "~style.css"
 import React from "react"
 import Checkbox from "./utility/Checkbox"
 
-export default function Todo(props) {
+type Props = {
+  name: string,
+  completed: boolean
+}
+
+export default function Todo(props: Props) {
   const [state, setState] = React.useState<boolean>(props.completed)
 
   return (
