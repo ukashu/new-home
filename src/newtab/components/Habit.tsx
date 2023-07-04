@@ -14,7 +14,7 @@ export default function Habit(props: Props) {
   const [state, setState] = React.useState(props.completed)
 
   return (
-      <div className="flex flex-row h-2.5em">
+      <div className="flex flex-row h-2.5em items-center">
         <AiFillBook size="2.5em"/>
         <Tick state={state} onClick={() => setState(prevState => !prevState)}/>
       </div>
