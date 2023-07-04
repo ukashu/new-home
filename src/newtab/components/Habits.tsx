@@ -38,6 +38,7 @@ export default function Habits() {
       <div className="max-w-[600px] w-auto min-w-[400px] h-full flex flex-col text-slate-200 gap-1 text-center flex-grow overflow-hidden">
         <HabitHeader columns={dateArray}/>
         <Habit name="reading" completed={false} columns={dateArray}/>
+        <Habit name="jumping" completed={false} columns={dateArray}/>
       </div>
     </div>
   )

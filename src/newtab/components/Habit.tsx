@@ -42,6 +42,7 @@ export default function Habit(props: Props) {
     console.log({data: data})
     let rows = []
     if (!data) {
+      //TODO: move initialization to options - when you create new habit 
       console.log("initializing")
       initStorage()
       for (let i in props.columns) {

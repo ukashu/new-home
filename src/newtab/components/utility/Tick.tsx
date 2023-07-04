@@ -9,7 +9,7 @@ export default function Tick(props: { state: boolean, date: string, name: string
   })
 
   const saveOrRemove = async() => {
-    let data = await storage.get(props.name)
+    let data: any = await storage.get(props.name)
     if (data[data.indexOf(props.date)]) {
       console.log('removing')
       data.splice(data.indexOf(props.date), 1)
