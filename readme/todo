@@ -1,1 +1,5 @@
 - change cqw to px (cqw doesnt resize on magnify only on container resize)
+- add adding habit columns when resizing
+- add dynamic icons to habits
+- adding habits from options
+- show habit name onhover
