@@ -9,10 +9,8 @@ import Websites from "./components/Websites"
 import Shortcuts from "./components/Shortcuts"
 
 import newTabBackground from '../resources/newTabBackground.svg'
-import { useState } from "react"
 
 function IndexNewtab() {
-  const [data, setData] = useState("")
 
   return (
     <div className="flex flex-row justify-between h-screen p-2 gap-2">
@@ -28,7 +26,7 @@ function IndexNewtab() {
         <Todos/>
         <Quotes quote="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat." author="Lorem Ipsum"/>
       </section>
-      <section id="center" className="flex flex-col items-center w-3/5 h-100% gap-2">
+      <section id="center" className="flex flex-col items-center w-3/5 min-w-[400px] h-100% gap-2">
         <Habits/>
         <Websites/>
         <Shortcuts/>
