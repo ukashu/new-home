@@ -1,8 +1,8 @@
 import "~base.css"
 import "~style.css"
 
-import { AiFillBook } from 'react-icons/ai'
 import Tick from "./utility/Tick"
+import Icons from "./utility/Icons"
 import React from "react"
 
 type Props = {
@@ -15,7 +15,7 @@ export default function Habit(props: Props) {
 
   return (
       <div className="flex flex-row h-2.5em items-center">
-        <AiFillBook size="2.5em"/>
+        <Icons/>
         <Tick state={state} onClick={() => setState(prevState => !prevState)}/>
       </div>
   )
