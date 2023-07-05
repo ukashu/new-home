@@ -9,3 +9,6 @@
 - removing habits in options
 - selecting icon for habit LATER
 - set types for storage generated state
+- on habit delete delete habit records also (or implement a cleanup function)
+- self sorting list for habit records (or just getting 14 latest records)
+- add prefix 'NH' to data saved in localstorage 
