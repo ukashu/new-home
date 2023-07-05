@@ -48,6 +48,7 @@ export default function Habits() {
     const data = await storage.get('habits')
     console.log({data})
     if (!data) {
+      //intialize storage
       await storage.set('habits', [])
     } else {
       for (let i in data as any) {
