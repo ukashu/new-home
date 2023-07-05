@@ -13,3 +13,7 @@
 - self sorting list for habit records (or just getting 14 latest records)
 - add prefix 'NH' to data saved in localstorage 
 - fix file structure
+- adding shortcuts to storage
+- reading shortcuts from storage and generating components
+- input validation
+- reorder shortcuts LATER

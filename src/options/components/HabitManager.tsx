@@ -28,7 +28,7 @@ export default function HabitManager(props: Props) {
       await storage.set('habits', [])
     } else {
       for (let i in data as any) {
-        rows.push(<HabitManaged name={data[i]} delete={() => removeHabit(data[i])}/>)
+        rows.push(<HabitManaged name={data[i]} delete={() => removeHabit(data[i])} key={data[i]}/>)
       }
       setHabits(rows)
     }
@@ -60,7 +60,7 @@ export default function HabitManager(props: Props) {
   }
 
   return (
-      <div className="flex flex-col h-[3em] w-full items-center justify-center gap-2 text-slate-200 pt-20">
+      <div className="flex flex-col w-full items-center justify-center gap-2 text-slate-200 pt-20">
         {habits}
         <label>
         Add habit: <input name="newHabit" value={habitName} onChange={e => setHabitName(e.target.value)} onKeyDown={event => (event.key === 'Enter') && addHabit(habitName)} className=" text-black"></input>

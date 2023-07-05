@@ -30,6 +30,16 @@
   "manifest": {
     "host_permissions": [
       "https://*/*"
+    ],
+    "permissions": [
+      "favicon"
+    ],
+    "web_accesible_resources": [
+      {
+        "resources": ["_favicon/*"],
+        "matches": ["<all_urls>"],
+        "extension_ids": ["*"]
+      }
     ]
   }
 }
