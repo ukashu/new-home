@@ -1,4 +1,4 @@
-import { AiFillBook } from 'react-icons/ai'
+import { BiTask } from 'react-icons/bi'
 
 type Props = {
   name: string
@@ -6,6 +6,6 @@ type Props = {
 
 export default function Icons() {
   return (
-    <AiFillBook size="3em"/>
+    <BiTask size="3em"/>
   )
 }
