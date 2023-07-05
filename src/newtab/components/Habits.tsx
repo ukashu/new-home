@@ -7,11 +7,6 @@ import React from "react"
 
 export default function Habits() {
   const [columns, setColumns] = React.useState(columnCount())
-  //TODO: function to get all habits from storage
-  //generate components from data - pass in wideness prop
-
-  //TODO: date header rendering
-  // dynamically change widenessState variable and 
 
   function columnCount() {
     const screen = window.screen.width
