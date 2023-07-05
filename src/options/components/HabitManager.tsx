@@ -19,16 +19,11 @@ export default function HabitManager(props: Props) {
     area: "local"
   })
 
-  const initStorage = async() => {
-    await storage.set('habits', [])
-  }
-
   const generateHabits = async() => {
     let rows = []
     const data = await storage.get('habits')
-    console.log({data})
     if (!data) {
-      initStorage()
+      await storage.set('habits', [])
     } else {
       for (let i in data as any) {
         rows.push(<HabitManaged name={data[i]}/>)
@@ -40,11 +35,10 @@ export default function HabitManager(props: Props) {
   const addHabit = async(habitName) => {
     let data: any = await storage.get('habits')
     if (!data) {
-      return
-    } else if (data[data.indexOf(habitName)]) {
-      return
+      return "storage_empty"
+    } else if (data.indexOf(habitName) != -1) {
+      return "already_in_storage"
     } else {
-      console.log({dataType: data})
       data.push(habitName)
       storage.set('habits', data)
     }
