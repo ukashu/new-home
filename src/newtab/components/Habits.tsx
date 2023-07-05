@@ -42,7 +42,7 @@ export default function Habits() {
 
   return (
     <div className="min-h-[200px] aspect-video w-full bg-black flex flex-row justify-center p-2 rounded-lg break-normal text-slate-200 text-center ">
-      <div className="max-w-[800px] w-auto min-w-[400px] h-full flex flex-col text-slate-200 gap-1 text-center flex-grow overflow-hidden">
+      <div className="max-w-[800px] min-w-[400px] h-full flex flex-col text-slate-200 gap-1 text-center flex-grow overflow-hidden">
         <HabitHeader columns={dateArray}/>
         <Habit name="reading" columns={dateArray}/>
         <Habit name="jumping" columns={dateArray}/>

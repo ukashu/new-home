@@ -56,7 +56,7 @@ export default function Habit(props: Props) {
   }
   
   return (
-      <div className="flex flex-row h-[3em] w-full items-center justify-around">
+      <div className="flex flex-row h-[3em] w-full items-center justify-center gap-2">
         <Tooltip message={props.name}>
           <Icons/>
         </Tooltip>
