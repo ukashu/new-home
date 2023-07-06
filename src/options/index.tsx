@@ -4,6 +4,7 @@ import "~style.css"
 import newTabBackground from '../resources/newTabBackground.svg'
 import HabitManager from "./components/HabitManager"
 import ShortcutInput from "./components/ShortcutInput"
+import TodoInputs from "./components/TodoInputs"
 
 function OptionsIndex() {
 
@@ -23,6 +24,10 @@ function OptionsIndex() {
       <section id="center" className="flex flex-col items-center w-3/5 min-w-[400px] h-100% gap-2 p-20">
         <HabitManager/>
         <ShortcutInput/>
+        <div className=" flex flex-row">
+          <TodoInputs type="WORK"/>
+          <TodoInputs type="LIFE"/>
+        </div>
       </section>
       <section id="right" className="flex flex-col items-center justify-between w-1/5 min-w-[300px] h-100% gap-2">
         <h2>RIGHT</h2>

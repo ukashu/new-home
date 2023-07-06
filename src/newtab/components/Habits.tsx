@@ -46,7 +46,6 @@ export default function Habits() {
   const generateHabits = async() => {
     let rows = []
     const data = await storage.get('habits')
-    console.log({data})
     if (!data) {
       //intialize storage
       await storage.set('habits', [])
