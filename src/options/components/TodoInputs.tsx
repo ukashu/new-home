@@ -28,9 +28,8 @@ export default function TodoInputs(props: Props) {
       await storage.set(props.type, {})
     } else {
       for (let i in data as any) {
-        console.log({i})
         rows.push(
-        <div className="h-[30px] text-slate-200 flex flex-row"> 
+        <div key={i} className="h-[30px] text-slate-200 flex flex-row"> 
           <p>{i}</p>
           <button key={i} onClick={() => removeTodo(i)} className=" bg-red-800 p-2 flex items-center justify-center">DELETE</button>
         </div>
@@ -56,14 +55,9 @@ export default function TodoInputs(props: Props) {
     let data: any = await storage.get(props.type)
     if (todoName in data) {
       //delete
-      console.log({dataBefore: data})
       delete data[todoName]
-      console.log({dataAfter: data})
       await storage.set(props.type, data)
       generateTodos()
-    } else {
-      //no habit with that name
-      return
     }
   }
 

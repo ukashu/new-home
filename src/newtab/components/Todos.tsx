@@ -24,14 +24,13 @@ function Todos() {
       return
     }
     const data = await storage.get(mode)
-    console.log({data})
     if (!data) {
       //intialize storage
       return
     } else {
       for (let i in data as any) {
         rows.push(
-          <Todo name={i} completed={data[i]} remove={(state) => changeTodoState(i, mode, state)}/>
+          <Todo key={i} name={i} completed={data[i]} remove={(state) => changeTodoState(i, mode, state)}/>
         )
       }
       setTodos(rows)
@@ -39,7 +38,6 @@ function Todos() {
   }
 
   const changeTodoState = async(name, type, state) => {
-    console.log({name, type, state})
     let data: any = await storage.get(type)
     if (name in data) {
       data[name] = state

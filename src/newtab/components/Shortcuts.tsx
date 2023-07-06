@@ -27,7 +27,7 @@ export default function Shortcuts() {
       for (let i in data as any) {
         rows.push(
         //move to separate component
-        <Tooltip message={data[i]}>
+        <Tooltip key={data[i]} message={data[i]}>
           <div onClick={() => window.open(data[i], '_self')} onMouseDown={e => (e.button === 1) && window.open(data[i])} className="h-[80px] aspect-square text-slate-200 bg-black flex items-center justify-center rounded-lg cursor-pointer">
           <img src={faviconURL(data[i])}/>
           </div>
