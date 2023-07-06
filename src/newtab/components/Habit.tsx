@@ -27,24 +27,17 @@ export default function Habit(props: Props) {
     area: "local"
   })
 
-  const initStorage = async() => {
-    await storage.set(props.name, [])
-  }
-
   const generateTics = async() => {
     const data = await storage.get(props.name)
-    console.log({data: data})
     let rows = []
     if (!data) {
-      //TODO: move initialization to options - when you create new habit 
-      console.log("initializing")
-      initStorage()
+      //TODO: move initialization to options - when you create new habit
+      await storage.set(props.name, [])
       for (let i in props.columns) {
         rows.push(<Tick state={false} name={props.name} date={props.columns[i]} key={props.name+props.columns[i]} />)
       }
       return setTicks(rows)
     }
-    console.log("generating")
     for (let i in props.columns) {
       if (data[data.indexOf(props.columns[i])]) {
         rows.push(<Tick state={true} name={props.name} date={props.columns[i]} key={props.name+props.columns[i]} />)
