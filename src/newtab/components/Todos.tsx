@@ -19,10 +19,14 @@ function Todos() {
   const generateTodos = async() => {
     let rows = []
     const mode = await storage.get('mode')
+    if (!mode) {
+      await storage.set('mode', 'WORK')
+      return
+    }
     const data = await storage.get(mode)
+    console.log({data})
     if (!data) {
       //intialize storage
-      await storage.set(mode, 'WORK')
     } else {
       for (let i in data as any) {
         rows.push(
