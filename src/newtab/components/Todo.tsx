@@ -6,7 +6,8 @@ import Checkbox from "./utility/Checkbox"
 
 type Props = {
   name: string,
-  completed: boolean
+  completed: boolean,
+  remove: (state: any) => Promise<void>
 }
 
 export default function Todo(props: Props) {
@@ -14,7 +15,10 @@ export default function Todo(props: Props) {
 
   return (
     <div className="flex flex-row items-center bg-slate-700">
-      <Checkbox state={state} onClick={() => {setState(prevState => !prevState)}}/>
+      <Checkbox state={state} onClick={() => {
+        props.remove(!state)
+        setState(prevState => !prevState)
+      }}/>
       <p className="pl-1">{props.name}</p>
     </div>
   )
