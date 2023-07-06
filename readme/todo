@@ -17,3 +17,4 @@
 - reading shortcuts from storage and generating components
 - input validation
 - reorder shortcuts LATER
+- button to remove all extention data from storage
