@@ -25,13 +25,14 @@ export default function TodoInputs(props: Props) {
     const data = await storage.get(props.type)
     if (!data) {
       //intialize storage
-      await storage.set(props.type, [])
+      await storage.set(props.type, {})
     } else {
       for (let i in data as any) {
+        console.log({i})
         rows.push(
         <div className="h-[30px] text-slate-200 flex flex-row"> 
-          <p>{data[i]}</p>
-          <button key={data[i]} onClick={() => removeTodo(data[i])} className=" bg-red-800 p-2 flex items-center justify-center">DELETE</button>
+          <p>{i}</p>
+          <button key={i} onClick={() => removeTodo(i)} className=" bg-red-800 p-2 flex items-center justify-center">DELETE</button>
         </div>
         )
       }
@@ -39,13 +40,13 @@ export default function TodoInputs(props: Props) {
     }
   }
 
-  const addTodo = async(todoName) => {
+  const addTodo = async(todoName, state) => {
     let data: any = await storage.get(props.type)
-    if (data.indexOf(todoName) != -1) {
+    if (todoName in data) {
       return "already_in_storage"
     } else {
-      if (!data) {/*initialize*/ await storage.set(props.type, []) }
-      data.push(todoName)
+      if (!data) {/*initialize*/ await storage.set(props.type, {}) }
+      data[todoName] = state
       storage.set(props.type, data)
       generateTodos()
     }
@@ -53,9 +54,11 @@ export default function TodoInputs(props: Props) {
 
   const removeTodo = async(todoName) => {
     let data: any = await storage.get(props.type)
-    if (data.indexOf(todoName) != -1) {
+    if (todoName in data) {
       //delete
-      data.splice(data.indexOf(todoName), 1)
+      console.log({dataBefore: data})
+      delete data[todoName]
+      console.log({dataAfter: data})
       await storage.set(props.type, data)
       generateTodos()
     } else {
@@ -68,9 +71,9 @@ export default function TodoInputs(props: Props) {
       <div className="flex flex-col w-full items-center justify-center gap-2 text-slate-200 pt-20">
         {todos}
         <label>
-        Add {props.type} todo: <input name="newShortcut" value={todoName} onChange={e => setTodoName(e.target.value)} onKeyDown={event => (event.key === 'Enter') && addTodo(todoName)} className=" text-black"></input>
+        Add {props.type} todo: <input name="newShortcut" value={todoName} onChange={e => setTodoName(e.target.value)} onKeyDown={event => (event.key === 'Enter') && addTodo(todoName, false)} className=" text-black"></input>
         </label>
-        <button onClick={() => addTodo(todoName)}>add todo</button>
+        <button onClick={() => addTodo(todoName, false)}>add todo</button>
       </div>
   )
 }

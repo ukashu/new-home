@@ -27,10 +27,11 @@ function Todos() {
     console.log({data})
     if (!data) {
       //intialize storage
+      return
     } else {
       for (let i in data as any) {
         rows.push(
-          <Todo name={data[i]} completed={false}/>
+          <Todo name={i} completed={data[i]}/>
         )
       }
       setTodos(rows)
