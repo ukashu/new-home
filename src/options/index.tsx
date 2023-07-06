@@ -9,7 +9,7 @@ import TodoInputs from "./components/TodoInputs"
 function OptionsIndex() {
 
   return (
-    <div className="flex flex-row justify-between h-screen p-2 gap-2">
+    <div className="flex flex-row justify-between h-screen p-2 gap-2 font-[Inter]">
       <img src={newTabBackground} alt="newTabBackground" style={{
         'position': 'absolute',
         'zIndex': '-999',
