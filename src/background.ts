@@ -39,7 +39,7 @@ const addToDomainStorage = async (domain) => {
     return "new day"
   }
   const prev = data[domain]
-  await storage.set('domainStorage', {...data, [domain]: prev ? prev + 60000 : 60000})
+  await storage.set('domainStorage', {...data, [domain]: prev ? prev + 1 : 1})
 }
 
 function getDate(date) {

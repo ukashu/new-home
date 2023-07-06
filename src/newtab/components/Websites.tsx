@@ -21,7 +21,7 @@ export default function Websites() {
       for (let i in data as any) {
         if (i === "date") {continue}
         rows.push(
-          <div className=" text-white flex flex-row justify-between items-center bg-red-200">
+          <div className=" text-white flex flex-row justify-between items-center">
             <p>{`${i} `}</p><p>{`${data[i]}`}</p>
           </div>
         )
