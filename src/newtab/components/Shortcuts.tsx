@@ -28,7 +28,7 @@ export default function Shortcuts() {
         rows.push(
         //move to separate component
         <Tooltip message={data[i]}>
-          <div onClick={() => window.open(data[i], '_self')} onMouseDown={e => (e.button === 1) && window.open(data[i])} className="h-[50px] aspect-square text-slate-200 bg-zinc-800 flex items-center justify-center rounded-lg cursor-pointer">
+          <div onClick={() => window.open(data[i], '_self')} onMouseDown={e => (e.button === 1) && window.open(data[i])} className="h-[80px] aspect-square text-slate-200 bg-black flex items-center justify-center rounded-lg cursor-pointer">
           <img src={faviconURL(data[i])}/>
           </div>
         </Tooltip>
@@ -46,7 +46,7 @@ export default function Shortcuts() {
   }
 
   return (
-    <div className="min-h-[150px] aspect-video w-full bg-black flex flex-row p-2 rounded-lg break-normal text-slate-200 gap-1 text-center justify-around mt-auto">
+    <div className="min-h-[120px] max-h-[250px] aspect-video w-full flex flex-row p-2 rounded-lg break-normal text-slate-200 gap-1 text-center justify-around items-center flex-wrap mt-auto">
       {shortcuts}
     </div>
   )
