@@ -37,13 +37,11 @@ export default function ShortcutInput(props: Props) {
   const addShortcut = async(shortcutName) => {
     let data: any = await storage.get('shortcuts')
     if (!data) { return }
-    if (data.indexOf(shortcutName) != -1) {
-      return "already_in_storage"
-    } else {
-      data.push(shortcutName)
-      storage.set('shortcuts', data)
-      generateAndSetShortcutElements()
-    }
+    if (data.indexOf(shortcutName) != -1) { return "already_in_storage" } 
+    data.push(shortcutName)
+    storage.set('shortcuts', data)
+    setShortcutName('')
+    generateAndSetShortcutElements()
   }
 
   const removeShortcut = async(shortcutName) => {
