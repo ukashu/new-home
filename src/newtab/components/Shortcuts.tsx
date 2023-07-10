@@ -21,7 +21,7 @@ export default function Shortcuts() {
     const data = await storage.get('shortcuts')
     if (data) { 
       for (let i in data as any) {
-        rows.push(<Shortcut websiteURL={data[i]}/>)
+        rows.push(<Shortcut key={data[i]} websiteURL={data[i]}/>)
       }
       setShortcuts(rows) 
     }
