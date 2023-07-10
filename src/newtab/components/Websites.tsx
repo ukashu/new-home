@@ -10,19 +10,24 @@ export default function Websites() {
 
   React.useEffect(()=>{
     generateDomains()
-  })
+  }, [])
 
   const [domains, setDomains] = React.useState<any>()
 
   const generateDomains = async() => {
+    let rawRows = []
     let rows = []
     const data = await storage.get('domainStorage')
     if (data) {
-      for (let i in data as any) {
-        if (i === "date") {continue}
+      //sort data
+      let entries = Object.entries(data);
+      let sorted = entries.sort((a: any, b: any) => b[1] - a[1]);
+      //generate components
+      for (let i in sorted as any) {
+        if (sorted[i][0] === "date") {continue}
         rows.push(
-          <div key={i} className=" text-white flex flex-row justify-between items-center">
-            <p>{`${i} `}</p><p>{`${data[i]}min`}</p>
+          <div key={sorted[i][0]} className=" text-white flex flex-row justify-between items-center">
+            <p>{`${sorted[i][0]} `}</p><p>{`${sorted[i][1]}min`}</p>
           </div>
         )
       }

@@ -23,3 +23,7 @@
 - add key props DONE
 - if you have two tabs open it counts the website twice? CHECK
 - check number of ticks on window resize
+- add prop types to components 
+- sort websites by time spent DONE
+- websites percent bar
+- move websites date to different key
