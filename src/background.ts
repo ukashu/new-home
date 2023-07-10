@@ -4,10 +4,6 @@ import { Storage } from "@plasmohq/storage"
 const storage = new Storage({
   area: "local"
 })
- 
-console.log(
-  "Live now; make now always the most precious time. Now will never come again."
-)
 
 async function getCurrentTab() {
   let queryOptions = { active: true, lastFocusedWindow: true };

@@ -1,9 +1,9 @@
 import "~base.css"
 import "~style.css"
 
-import Tick from "./utility/Tick"
-import Icons from "./utility/Icons"
-import Tooltip from "./utility/Tooltip"
+import Tick from "./Tick"
+import Icons from "./Icons"
+import Tooltip from "../../../utility/Tooltip"
 import React from "react"
 import { Storage } from "@plasmohq/storage"
 

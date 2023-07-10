@@ -1,11 +1,11 @@
 import "~base.css"
 import "~style.css"
 
-import Habit from "./Habit"
-import HabitHeader from "./HabitHeader"
+import Habit from "./reusable/Habit"
+import HabitHeader from "./reusable/HabitHeader"
 import React from "react"
 import { Storage } from "@plasmohq/storage"
-import { createDatesArray } from './utility/utility'
+import { createDatesArray } from '../../utility/utility'
 
 export default function Habits() {
   const [columns, setColumns] = React.useState(columnCount())

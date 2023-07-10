@@ -2,7 +2,7 @@ import "~base.css"
 import "~style.css"
 
 import React from "react"
-import Checkbox from "./utility/Checkbox"
+import Checkbox from "./Checkbox"
 
 type Props = {
   name: string,

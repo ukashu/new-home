@@ -2,7 +2,7 @@ import "~base.css"
 import "~style.css"
 
 import React from "react"
-import Todo from "./Todo"
+import Todo from "./reusable/Todo"
 import { Storage } from "@plasmohq/storage"
 
 function Todos() {

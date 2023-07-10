@@ -3,8 +3,7 @@ import "~style.css"
 
 import React from "react"
 import { Storage } from "@plasmohq/storage"
-import ShortcutElement from "~options/components/ShortcutElement"
-import Tooltip from "./utility/Tooltip"
+import Tooltip from "../../utility/Tooltip"
 
 export default function Shortcuts() {
   const [shortcuts, setShortcuts] = React.useState<any>()
@@ -14,10 +13,10 @@ export default function Shortcuts() {
   })
 
   React.useEffect(() => {
-    generateShortcuts()
+    generateAndSetShortcuts()
   }, [])
 
-  const generateShortcuts = async() => {
+  const generateAndSetShortcuts = async() => {
     let rows = []
     const data = await storage.get('shortcuts')
     if (!data) {
