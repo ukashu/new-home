@@ -13,39 +13,31 @@ function Todos() {
   })
 
   React.useEffect(() => {
-    generateTodos()
+    generateAndSetTodos()
   }, [])
 
-  const generateTodos = async() => {
+  const generateAndSetTodos = async() => {
     let rows = []
     const mode = await storage.get('mode')
     if (!mode) {
       await storage.set('mode', 'WORK')
-      return
     }
     const data = await storage.get(mode)
-    if (!data) {
-      //intialize storage
-      return
-    } else {
-      for (let i in data as any) {
-        rows.push(
-          <Todo key={i} name={i} completed={data[i]} remove={(state) => changeTodoState(i, mode, state)}/>
-        )
-      }
-      setTodos(rows)
+    if (!data) { return } 
+    for (let i in data as any) {
+      rows.push(
+        <Todo key={i} name={i} completed={data[i]} remove={(state) => changeTodoState(i, mode, state)}/>
+      )
     }
+    setTodos(rows)
   }
 
   const changeTodoState = async(name, type, state) => {
     let data: any = await storage.get(type)
+    if (!data) { return }
     if (name in data) {
       data[name] = state
       storage.set(type, data)
-    } else {
-      if (!data) {/*initialize*/ 
-      await storage.set(type, {})
-      }
     }
   }
 

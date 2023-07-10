@@ -13,14 +13,14 @@ export default function TodoInputs(props: Props) {
   const [todoName, setTodoName] = React.useState<string>('')
 
   React.useEffect(() => {
-    generateTodos()
+    generateAndSetTodos()
   }, [])
 
   const storage = new Storage({
     area: "local"
   })
 
-  const generateTodos = async() => {
+  const generateAndSetTodos = async() => {
     let rows = []
     const data = await storage.get(props.type)
     if (!data) {
@@ -31,7 +31,7 @@ export default function TodoInputs(props: Props) {
         rows.push(
         <div key={i} className="h-[30px] text-slate-200 flex flex-row"> 
           <p>{i}</p>
-          <button key={i} onClick={() => removeTodo(i)} className=" bg-red-800 p-2 flex items-center justify-center">DELETE</button>
+          <button key={i} onClick={() => removeTodo(i, props.type)} className=" bg-red-800 p-2 flex items-center justify-center">DELETE</button>
         </div>
         )
       }
@@ -39,25 +39,24 @@ export default function TodoInputs(props: Props) {
     }
   }
 
-  const addTodo = async(todoName, state) => {
-    let data: any = await storage.get(props.type)
-    if (todoName in data) {
-      return "already_in_storage"
-    } else {
-      if (!data) {/*initialize*/ await storage.set(props.type, {}) }
-      data[todoName] = state
-      storage.set(props.type, data)
-      generateTodos()
-    }
+  const addTodo = async(todoName, type, state) => {
+    let data: any = await storage.get(type)
+    if (!data) { return }
+    if (todoName in data) { return "already_in_storage" } 
+    data[todoName] = state
+    storage.set(type, data)
+    setTodoName('')
+    generateAndSetTodos()
   }
 
-  const removeTodo = async(todoName) => {
-    let data: any = await storage.get(props.type)
+  const removeTodo = async(todoName, type) => {
+    let data: any = await storage.get(type)
+    if (!data) { return }
     if (todoName in data) {
       //delete
       delete data[todoName]
-      await storage.set(props.type, data)
-      generateTodos()
+      await storage.set(type, data)
+      generateAndSetTodos()
     }
   }
 
@@ -65,9 +64,9 @@ export default function TodoInputs(props: Props) {
       <div className="flex flex-col w-full items-center justify-center gap-2 text-slate-200 pt-20">
         {todos}
         <label>
-        Add {props.type} todo: <input name="newShortcut" value={todoName} onChange={e => setTodoName(e.target.value)} onKeyDown={event => (event.key === 'Enter') && addTodo(todoName, false)} className=" text-black"></input>
+        Add {props.type} todo: <input name="newShortcut" value={todoName} onChange={e => setTodoName(e.target.value)} onKeyDown={event => (event.key === 'Enter') && addTodo(todoName, props.type, false)} className=" text-black"></input>
         </label>
-        <button onClick={() => addTodo(todoName, false)}>add todo</button>
+        <button onClick={() => addTodo(todoName, props.type, false)}>add todo</button>
       </div>
   )
 }
