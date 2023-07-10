@@ -13,14 +13,14 @@ export default function ShortcutInput(props: Props) {
   const [shortcutName, setShortcutName] = React.useState<string>('')
 
   React.useEffect(() => {
-    generateShortcuts()
+    generateAndSetShortcutElements()
   }, [])
 
   const storage = new Storage({
     area: "local"
   })
 
-  const generateShortcuts = async() => {
+  const generateAndSetShortcutElements = async() => {
     let rows = []
     const data = await storage.get('shortcuts')
     if (!data) {
@@ -36,26 +36,25 @@ export default function ShortcutInput(props: Props) {
 
   const addShortcut = async(shortcutName) => {
     let data: any = await storage.get('shortcuts')
+    if (!data) { return }
     if (data.indexOf(shortcutName) != -1) {
       return "already_in_storage"
     } else {
-      if (!data) {/*initialize*/ await storage.set('shortcuts', []) }
       data.push(shortcutName)
       storage.set('shortcuts', data)
-      generateShortcuts()
+      generateAndSetShortcutElements()
     }
   }
 
   const removeShortcut = async(shortcutName) => {
     let data: any = await storage.get('shortcuts')
+    if (!data) { return }
     if (data.indexOf(shortcutName) != -1) {
-      //delete
       data.splice(data.indexOf(shortcutName), 1)
       await storage.set('shortcuts', data)
-      generateShortcuts()
+      generateAndSetShortcutElements()
     } else {
-      //no habit with that name
-      return
+      return "no_shortcut_found"
     }
   }
 

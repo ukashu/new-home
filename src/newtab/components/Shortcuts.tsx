@@ -3,7 +3,7 @@ import "~style.css"
 
 import React from "react"
 import { Storage } from "@plasmohq/storage"
-import Tooltip from "../../utility/Tooltip"
+import Shortcut from "./reusable/Shortcut"
 
 export default function Shortcuts() {
   const [shortcuts, setShortcuts] = React.useState<any>()
@@ -19,29 +19,12 @@ export default function Shortcuts() {
   const generateAndSetShortcuts = async() => {
     let rows = []
     const data = await storage.get('shortcuts')
-    if (!data) {
-      //intialize storage
-      await storage.set('shortcuts', [])
-    } else {
+    if (data) { 
       for (let i in data as any) {
-        rows.push(
-        //move to separate component
-        <Tooltip key={data[i]} message={data[i]}>
-          <div onClick={() => window.open(data[i], '_self')} onMouseDown={e => (e.button === 1) && window.open(data[i])} className="h-[80px] aspect-square text-slate-200 bg-black flex items-center justify-center rounded-lg cursor-pointer">
-          <img src={faviconURL(data[i])}/>
-          </div>
-        </Tooltip>
-        )
+        rows.push(<Shortcut websiteURL={data[i]}/>)
       }
-      setShortcuts(rows)
+      setShortcuts(rows) 
     }
-  }
-
-  function faviconURL(u) {
-    const url = new URL(chrome.runtime.getURL("/_favicon/"));
-    url.searchParams.set("pageUrl", u);
-    url.searchParams.set("size", "30");
-    return url.toString();
   }
 
   return (
