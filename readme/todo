@@ -1,4 +1,4 @@
-- change cqw to px (cqw doesnt resize on magnify only on container resize)
+- change cqw to px (cqw doesnt resize on magnify only on container resize) DONE
 - add adding habit columns when resizing
 - add dynamic icons to habits
 - adding habits from options
@@ -18,7 +18,8 @@
 - input validation
 - reorder shortcuts LATER
 - button to remove all extention data from storage
-- setting todo completion in storage
-- delete input content on submit
-- add key props
+- setting todo completion in storage DONE
+- delete input content on submit DONE
+- add key props DONE
 - if you have two tabs open it counts the website twice? CHECK
+- check number of ticks on window resize

@@ -15,24 +15,18 @@ type Props = {
 export default function Habit(props: Props) {
   const [ticks, setTicks] = React.useState<any>()
 
-  React.useEffect(() => {
-    generateTics()
-  }, [])
-
-  //TODO: Generate Ticks based on data passed
-  //change number of rendered Ticks based on wideness prop
-
-  //function to modify storage data on Tick Click
   const storage = new Storage({
     area: "local"
   })
 
-  const generateTics = async() => {
-    const data = await storage.get(props.name)
+  React.useEffect(() => {
+    generateAndSetTicks()
+  }, [])
+
+  const generateAndSetTicks = async() => {
     let rows = []
+    const data = await storage.get(props.name)
     if (!data) {
-      //TODO: move initialization to options - when you create new habit
-      await storage.set(props.name, [])
       for (let i in props.columns) {
         rows.push(<Tick state={false} name={props.name} date={props.columns[i]} key={props.name+props.columns[i]} />)
       }

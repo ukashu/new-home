@@ -3,7 +3,7 @@ import "~style.css"
 
 import React from "react"
 import { Storage } from "@plasmohq/storage"
-import HabitManaged from "./HabitManaged"
+import HabitManaged from "./HabitElement"
 
 type Props = {
 }
@@ -12,15 +12,15 @@ export default function HabitManager(props: Props) {
   const [habits, setHabits] = React.useState<any>()
   const [habitName, setHabitName] = React.useState<string>('')
 
-  React.useEffect(() => {
-    generateHabits()
-  }, [])
-
   const storage = new Storage({
     area: "local"
   })
 
-  const generateHabits = async() => {
+  React.useEffect(() => {
+    generateAndSetHabits()
+  }, [])
+
+  const generateAndSetHabits = async() => {
     let rows = []
     const data = await storage.get('habits')
     if (!data) {
@@ -36,26 +36,27 @@ export default function HabitManager(props: Props) {
 
   const addHabit = async(habitName) => {
     let data: any = await storage.get('habits')
+    if (!data) { return }
     if (data.indexOf(habitName) != -1) {
       return "already_in_storage"
     } else {
-      if (!data) {/*initialize*/ await storage.set('habits', []) }
       data.push(habitName)
-      storage.set('habits', data)
-      generateHabits()
+      await storage.set('habits', data)
+      await storage.set(habitName, [])
+      setHabitName('')
+      generateAndSetHabits()
     }
   }
 
   const removeHabit = async(habitName) => {
     let data: any = await storage.get('habits')
     if (data.indexOf(habitName) != -1) {
-      //delete
       data.splice(data.indexOf(habitName), 1)
       await storage.set('habits', data)
-      generateHabits()
+      await storage.remove(habitName)
+      generateAndSetHabits()
     } else {
-      //no habit with that name
-      return
+      return "not_in_storage"
     }
   }
 
