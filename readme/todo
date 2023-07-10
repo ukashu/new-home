@@ -21,3 +21,4 @@
 - setting todo completion in storage
 - delete input content on submit
 - add key props
+- if you have two tabs open it counts the website twice? CHECK

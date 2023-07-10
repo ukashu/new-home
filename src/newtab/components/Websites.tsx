@@ -22,7 +22,7 @@ export default function Websites() {
         if (i === "date") {continue}
         rows.push(
           <div key={i} className=" text-white flex flex-row justify-between items-center">
-            <p>{`${i} `}</p><p>{`${data[i]}`}</p>
+            <p>{`${i} `}</p><p>{`${data[i]}min`}</p>
           </div>
         )
       }
