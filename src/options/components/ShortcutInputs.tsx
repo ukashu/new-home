@@ -8,7 +8,7 @@ import ShortcutElement from "./ShortcutElement"
 type Props = {
 }
 
-export default function ShortcutInput(props: Props) {
+export default function ShortcutInputs(props: Props) {
   const [shortcuts, setShortcuts] = React.useState<any>()
   const [shortcutName, setShortcutName] = React.useState<string>('')
 

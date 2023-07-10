@@ -3,12 +3,11 @@ import "~style.css"
 
 import React from "react"
 import { Storage } from "@plasmohq/storage"
-import HabitManaged from "./HabitElement"
 
 type Props = {
 }
 
-export default function HabitManager(props: Props) {
+export default function HabitInputs(props: Props) {
   const [habits, setHabits] = React.useState<any>()
   const [habitName, setHabitName] = React.useState<string>('')
 
@@ -28,7 +27,12 @@ export default function HabitManager(props: Props) {
       await storage.set('habits', [])
     } else {
       for (let i in data as any) {
-        rows.push(<HabitManaged name={data[i]} delete={() => removeHabit(data[i])} key={data[i]}/>)
+        rows.push(
+          <div key={data[i]} className="h-[30px] text-slate-200 flex flex-row">
+            <p>{data[i]}</p>
+            <button onClick={() => removeHabit(data[i])} className=" bg-red-800 p-2 flex items-center justify-center">DELETE</button>
+          </div>
+        )
       }
       setHabits(rows)
     }
