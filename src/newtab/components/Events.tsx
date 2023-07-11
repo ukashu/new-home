@@ -16,7 +16,8 @@ function Events(props: Props) {
   }, [])
 
   function createGoogleCalendarEndpoint(email: string): string {
-    let timeNow = new Date().toISOString()
+    let offset = new Date().getTimezoneOffset()
+    let timeNow = new Date(Date.now() - offset*60*1000).toISOString()
     let timeTomorrow: any = new Date();
     timeTomorrow.setHours(24, 0, 0, 0);
     timeTomorrow.setHours(timeTomorrow.getHours() + 2);
