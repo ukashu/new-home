@@ -33,7 +33,7 @@ function IndexNewtab() {
       </section>
       <section id="right" className="flex flex-col items-center justify-between w-1/5 min-w-[300px] h-100% gap-2">
         <Spotify/>
-        <Events currentColor="#3083FF" nextColor="#9975FF"/>
+        <Events/>
       </section>
     </div>
   )

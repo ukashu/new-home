@@ -3,8 +3,6 @@ import "~base.css"
 import "~style.css"
 
 type Props = {
-  currentColor: string,
-  nextColor: string
 }
 
 function Events(props: Props) {
