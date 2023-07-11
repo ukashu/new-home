@@ -80,7 +80,7 @@ function Events(props: Props) {
   }
 
   return (
-    <div className="min-h-[150px] aspect-video w-full bg-black flex flex-col p-2 rounded-lg break-normal font-bold text-base">
+    <div className="min-h-[150px] aspect-video w-full bg-black flex flex-col justify-between p-2 rounded-lg break-normal font-bold text-base">
       <div>
         <p style={{
         "backgroundImage": `radial-gradient(51.14% 51.14% at 50.23% 62.5%, ${currentEvent.color} 0%, #8d8d8d 100%)`,

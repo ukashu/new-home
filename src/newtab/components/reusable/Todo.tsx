@@ -3,6 +3,7 @@ import "~style.css"
 
 import React from "react"
 import Checkbox from "./Checkbox"
+import PrettyText from "./PrettyText"
 
 type Props = {
   name: string,
@@ -14,12 +15,12 @@ export default function Todo(props: Props) {
   const [state, setState] = React.useState<boolean>(props.completed)
 
   return (
-    <div className="flex flex-row items-center bg-slate-700">
+    <div className="flex flex-row items-center">
       <Checkbox state={state} onClick={() => {
         props.remove(!state)
         setState(prevState => !prevState)
       }}/>
-      <p className="pl-1">{props.name}</p>
+      <div className="pl-1 font-bold"><PrettyText text={props.name} color='#FFFFFF'/></div>
     </div>
   )
 }
