@@ -21,12 +21,12 @@ function OptionsIndex() {
       <section id="left" className="flex flex-col items-center w-1/5 min-w-[300px] h-100% gap-2">
         <h2>LEFT</h2>
       </section>
-      <section id="center" className="flex flex-col items-center w-3/5 min-w-[400px] h-100% gap-2 p-20">
-        <div className=" flex flex-row">
+      <section id="center" className="flex flex-col items-center w-3/5 min-w-[400px] h-100%">
+        <div className=" flex flex-row gap-10">
           <HabitInputs/>
           <ShortcutInputs/>
         </div>
-        <div className=" flex flex-row">
+        <div className=" flex flex-row gap-10">
           <TodoInputs type="WORK"/>
           <TodoInputs type="LIFE"/>
         </div>

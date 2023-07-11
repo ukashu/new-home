@@ -64,7 +64,7 @@ export default function TodoInputs(props: Props) {
       <div className="flex flex-col w-full items-center justify-center gap-2 text-slate-200 pt-20">
         {todos}
         <label>
-        Add {props.type} todo: <input name="newShortcut" value={todoName} onChange={e => setTodoName(e.target.value)} onKeyDown={event => (event.key === 'Enter') && addTodo(todoName, props.type, false)} className=" text-black"></input>
+        Add {props.type} todo: <input name="newShortcut" maxLength={25} value={todoName} onChange={e => setTodoName(e.target.value)} onKeyDown={event => (event.key === 'Enter') && addTodo(todoName, props.type, false)} className=" text-black"></input>
         </label>
         <button onClick={() => addTodo(todoName, props.type, false)}>add todo</button>
       </div>

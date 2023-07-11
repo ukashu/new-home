@@ -68,7 +68,7 @@ export default function HabitInputs(props: Props) {
       <div className="flex flex-col w-full items-center justify-center gap-2 text-slate-200 pt-20">
         {habits}
         <label>
-        Add habit: <input name="newHabit" value={habitName} onChange={e => setHabitName(e.target.value)} onKeyDown={event => (event.key === 'Enter') && addHabit(habitName)} className=" text-black"></input>
+        Add habit: <input name="newHabit" maxLength={25} value={habitName} onChange={e => setHabitName(e.target.value)} onKeyDown={event => (event.key === 'Enter') && addHabit(habitName)} className=" text-black"></input>
         </label>
         <button onClick={() => addHabit(habitName)}>add habit</button>
       </div>
