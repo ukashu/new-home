@@ -54,17 +54,17 @@ function Events(props: Props) {
       const events = await res.json()
       let curr = events.items[0].summary
       if (curr) { 
-        setCurrentEvent(() => { return {
+        setCurrentEvent({
           name: curr,
           color: events.items[0].colorId ? colors.event[events.items[0].colorId].background : '#3083FF'
-        }})
+        })
       }
       let next = events.items[1].summary
       if (next) { 
-        setNextEvent(() => { return {
+        setNextEvent({
           name: next,
           color: events.items[1].colorId ? colors.event[events.items[1].colorId].background : '#3083FF'
-        }})
+        })
       }
     } catch(err) { console.error({err}) }
   }

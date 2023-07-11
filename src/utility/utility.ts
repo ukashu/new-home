@@ -17,3 +17,11 @@ export function createDatesArray(columns, date) {
   }
   return arr
 }
+
+export function getDate(date) {
+  let parsedDate: any = new Date(date)
+  parsedDate = parsedDate.toISOString().split('T')[0]
+  parsedDate = parsedDate.split('-')
+  parsedDate = parsedDate[0]+parsedDate[1]+parsedDate[2] 
+  return parsedDate
+}
