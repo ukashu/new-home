@@ -28,11 +28,19 @@
     "typescript": "5.1.6"
   },
   "manifest": {
+    "oauth2": {
+      "client_id": "536462868022-hetam4obo7njimihl9h3e85iapgtr7dt.apps.googleusercontent.com",
+      "scopes": [
+        "https://www.googleapis.com/auth/calendar.readonly"
+      ]
+    },
     "host_permissions": [
       "https://*/*"
     ],
     "permissions": [
-      "favicon"
+      "favicon",
+      "identity",
+      "identity.email"
     ]
   }
 }
