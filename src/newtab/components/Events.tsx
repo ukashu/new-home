@@ -75,12 +75,8 @@ function Events(props: Props) {
     return `${offset[0]}${offset[1]}${offset[2]}:${offset[3]}${offset[4]}`
   }
 
-  function testing() {
-    console.log('testing')
-  }
-
   return (
-    <div className="min-h-[150px] aspect-video w-full bg-black flex flex-col justify-between p-2 rounded-lg break-normal font-bold text-sm">
+    <div className="min-h-[150px] aspect-video w-full bg-black flex flex-col justify-between px-5 py-4 rounded-lg break-normal font-bold text-sm">
       <div>
         <p style={{
         "backgroundImage": `radial-gradient(51.14% 51.14% at 50.23% 62.5%, ${currentEvent.color} 0%, #8d8d8d 100%)`,
@@ -111,9 +107,9 @@ function Events(props: Props) {
         "textAlign": "center"}}>{nextEvent.name}
         </p>
       </div>
-      <button onClick={testing}>
+      <div>
         TEST
-      </button>
+      </div>
     </div>
   )
 }
