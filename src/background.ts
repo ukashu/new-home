@@ -26,18 +26,24 @@ chrome.runtime.onMessage.addListener(async(message, sender, callback) => {
 const addToDomainStorage = async (domain) => {
   const date: any = await storage.get('date')
   const data: any = await storage.get('domainStorage')
+  const total: any = await storage.get('totalDomainStorage')
   //if not initialized initialize 
   if (!date) {
     await storage.set('date', getDate(Date.now()))
   }
   if (!data) {
     await storage.set('domainStorage', {})
-    return "initialized"
+    return
+  }
+  if (!total) {
+    await storage.set('totalDomainStorage', 0)
+    return
   }
   //if date different from today delete and reinitialize
   if (date != getDate(Date.now())) {
     await storage.set('date', getDate(Date.now()))
     await storage.set('domainStorage', {})
+    await storage.set('totalDomainStorage', 0)
     const res = await fetch('https://stoic-quotes.com/api/quote')
     const quote = await res.json()
     await storage.set('quote', quote)
@@ -45,4 +51,5 @@ const addToDomainStorage = async (domain) => {
   }
   const prev = data[domain]
   await storage.set('domainStorage', {...data, [domain]: prev ? prev + 1 : 1})
+  await storage.set('totalDomainStorage', total + 1)
 }
