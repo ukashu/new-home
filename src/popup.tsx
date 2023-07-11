@@ -18,6 +18,7 @@ function IndexPopup() {
   const setModeStorage = async(mode) => {
     await storage.set('mode', mode)
     setMode(mode)
+    chrome.runtime.sendMessage({action: 'modeChange'})
   }
 
   const readAndSetModeFromStorage = async() => {

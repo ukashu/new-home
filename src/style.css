@@ -20,3 +20,12 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #696969;
 }
+
+::selection {
+  background: rgba(255, 217, 0, 0.466);
+}
+
+img {
+  pointer-events: none;
+  user-select: none;
+}

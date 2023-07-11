@@ -41,6 +41,12 @@ function Todos() {
     }
   }
 
+  chrome.runtime.onMessage.addListener(async(message, sender, callback) => {
+    if (message.action == 'modeChange') {
+      generateAndSetTodos()
+    }
+  })
+
   return (
     <div className="min-h-[150px] aspect-video w-full bg-black flex flex-col p-2 rounded-lg break-normal text-slate-200 gap-1 flex-grow">
       {todos}
