@@ -35,7 +35,7 @@ const addToDomainStorage = async (domain) => {
     await storage.set('domainStorage', {})
     return
   }
-  if (!total) {
+  if (!total && total !== 0) {
     await storage.set('totalDomainStorage', 0)
     return
   }
@@ -44,8 +44,8 @@ const addToDomainStorage = async (domain) => {
     await storage.set('date', getDate(Date.now()))
     await storage.set('domainStorage', {})
     await storage.set('totalDomainStorage', 0)
-    const res = await fetch('https://stoic-quotes.com/api/quote')
-    const quote = await res.json()
+    let quote: any = await fetch('https://stoic-quotes.com/api/quote')
+    quote = await quote.json()
     await storage.set('quote', quote)
     return "new day"
   }
