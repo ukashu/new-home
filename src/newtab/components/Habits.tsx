@@ -40,8 +40,8 @@ export default function Habits() {
   let dateArray = createDatesArray(columns, Date.now())
 
   return (
-    <div className="min-h-[200px] aspect-video w-full bg-black flex flex-row justify-center p-2 rounded-lg break-normal text-slate-200 text-center ">
-      <div className="max-w-[800px] min-w-[400px] h-full flex flex-col text-slate-200 gap-1 text-center flex-grow overflow-hidden">
+    <div className="min-h-[200px] aspect-video w-full bg-black flex flex-row justify-center rounded-lg break-normal text-slate-200 text-center">
+      <div className="max-w-[800px] min-w-[400px] h-full flex flex-col text-slate-200 gap-1 p-2 text-center flex-grow overflow-y-auto">
         <HabitHeader columns={dateArray}/>
         {habits}
       </div>
