@@ -15,7 +15,10 @@ export default function Todo(props: Props) {
   const [state, setState] = React.useState<boolean>(props.completed)
 
   return (
-    <div className="flex flex-row items-center">
+    <div id="todo" className="flex flex-row items-center" onClick={() => {
+      props.remove(!state)
+      setState(prevState => !prevState)
+    }}>
       <Checkbox state={state} onClick={() => {
         props.remove(!state)
         setState(prevState => !prevState)
