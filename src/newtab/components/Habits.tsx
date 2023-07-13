@@ -22,7 +22,7 @@ export default function Habits() {
   function columnCount() {
     const screen = window.screen.width
     const current = window.innerWidth
-    const number = Math.floor((current/screen)*14)
+    const number = Math.floor((current/screen)*20)
     return number
   }
 
@@ -41,7 +41,7 @@ export default function Habits() {
 
   return (
     <div className="min-h-[200px] aspect-video w-full bg-black flex flex-row justify-center rounded-lg break-normal text-slate-200 text-center">
-      <div className="max-w-[800px] min-w-[400px] h-full flex flex-col text-slate-200 gap-1 p-2 text-center flex-grow overflow-y-auto">
+      <div className="max-w-[1000px] min-w-[400px] h-full flex flex-col text-slate-200 gap-1 p-2 text-center flex-grow overflow-y-auto">
         <HabitHeader columns={dateArray}/>
         {habits}
       </div>

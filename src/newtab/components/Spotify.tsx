@@ -204,7 +204,6 @@ function Spotify() {
   }
 
   async function getTrack() {
-    console.log('getTrack')
     try {
       await secureStorage.setPassword("roosevelt")
       const token = await secureStorage.get('spotify_access_token')

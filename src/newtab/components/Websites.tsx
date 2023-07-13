@@ -30,13 +30,13 @@ export default function Websites() {
         rows.push(
           <div key={sorted[i][0]} className=" text-white flex flex-row justify-between items-center">
             <div className="w-3/12 flex-grow text-left font-bold">
-              <PrettyText text={sorted[i][0]}/>
+              <PrettyText color='#FFFFFF' text={sorted[i][0]}/>
             </div>
             <div className="h-full w-6/12 flex-grow mx-1 flex justify-start items-center">
               <div className={`h-[3px] rounded-md bg-zinc-600`} style={{width: `${percentage}%`}}></div>
             </div>
             <div className="w-3/12 flex-grow text-right font-bold">
-              <PrettyText text={`${sorted[i][1]}min / ${percentage}%`}/>
+              <PrettyText color='#FFFFFF' text={`${sorted[i][1]}min / ${percentage}%`}/>
             </div>
           </div>
         )
