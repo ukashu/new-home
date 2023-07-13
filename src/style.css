@@ -82,3 +82,29 @@ img {
   /* This section calls the slideInFromLeft animation we defined above */
   animation: 0.2s ease-out 0s 1 appear;
 }
+
+/*LARGER TEXT*/
+@keyframes largerText {
+  0% {
+    font-size: 12px;
+  }
+  100% {
+    font-size: 13px;
+  }
+}
+
+/*HIGHLIGHT*/
+@keyframes highlightText {
+  0% {
+    text-shadow: 0 0 0px #ffffff;
+  }
+  100% {
+    text-shadow: 0 0 1px #cccccc;
+  }
+}
+
+#todo:hover {  
+  /* This section calls the slideInFromLeft animation we defined above */
+  animation: 0.5s ease-out 0s 1 highlightText;
+  text-shadow: 0 0 1px #cccccc;
+}

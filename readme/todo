@@ -30,6 +30,7 @@
 - google event colors
 - google event loading state
 - spotify loading state/ no track state
-- if initial getTrack fails, abort
+- if initial getTrack fails, abort DONE
 - only get colors on track change
 - save track info in storage and display it on startup
+- get track errors are because of lack of asynchronicity in useEffect

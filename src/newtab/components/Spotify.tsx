@@ -15,6 +15,8 @@ function Spotify() {
     colors: [[0, 0, 0],[0,0,0]],
     // linear-gradient(321deg, #C00C3C 0%, rgba(0,0,0,1.0) 0.01%, rgba(246,246,246,1.0) 100%) conic-gradient(from 90deg at 50.17% 60.67%, rgba(246,246,246,1.0), rgba(102,103,98,1.0) 70%)
   })
+  const currentTrackId = React.useRef('')
+
   const CLIENT_ID = process.env.PLASMO_PUBLIC_SPOTIFY_CLIENT_ID
   const RESPONSE_TYPE = 'code'
   const REDIRECT_URI = `https://${chrome.runtime.id}.chromiumapp.org/`
@@ -33,13 +35,16 @@ function Spotify() {
   }, [])
 
   React.useEffect(() => {
+    if (!spotifyState.isLoggedIn) {
+      return
+    }
     getTrack()
     const getTrackData = setInterval(() => {
       getTrack()
     }, 5000)
 
     return () => clearInterval(getTrackData)
-  }, [])
+  }, [spotifyState.isLoggedIn])
 
   const storage = new Storage({
     area: "local"
@@ -123,7 +128,19 @@ function Spotify() {
       if (response.refresh_token) {
         await secureStorage.set("spotify_refresh_token", response.refresh_token)
       }
+      setSpotifyState(prevState => {
+        return {
+          ...prevState,
+          isLoggedIn: true
+        }
+      })
     } catch(err) {
+      setSpotifyState(prevState => {
+        return {
+          ...prevState,
+          isLoggedIn: false
+        }
+      })
       console.error(err)
     }
   }
@@ -150,8 +167,20 @@ function Spotify() {
       console.log({refreshRes: res})
       await secureStorage.set("spotify_access_token", res.access_token)
       await secureStorage.set("spotify_refresh_token", res.refresh_token)
-    } catch(err) { 
+      setSpotifyState(prevState => {
+        return {
+          ...prevState,
+          isLoggedIn: true
+        }
+      })
+    } catch(err) {
       secureStorage.remove("spotify_refresh_token")
+      setSpotifyState(prevState => {
+        return {
+          ...prevState,
+          isLoggedIn: false
+        }
+      })
       console.error(err) 
     }
   }
@@ -175,6 +204,7 @@ function Spotify() {
   }
 
   async function getTrack() {
+    console.log('getTrack')
     try {
       await secureStorage.setPassword("roosevelt")
       const token = await secureStorage.get('spotify_access_token')
@@ -190,7 +220,7 @@ function Spotify() {
       res = await res.json()
       if (res.error) { throw new Error(`getTrack error`) }
       //get colors from canvas
-      if (res.item.id !== spotifyState.trackId) {
+      if (res.item.id !== currentTrackId.current) {
         let colors = await getColors(res.item.album.images[1].url)
         setSpotifyState((prevState) => { return {
           ...prevState,
@@ -200,9 +230,16 @@ function Spotify() {
           trackId: res.item.id,
           colors: colors as any
         }})
+        currentTrackId.current = res.item.id
       }
     } catch(err) { 
       secureStorage.remove("spotify_access_token")
+      setSpotifyState(prevState => {
+        return {
+          ...prevState,
+          isLoggedIn: false
+        }
+      })
       console.error(err)
      }
   }
