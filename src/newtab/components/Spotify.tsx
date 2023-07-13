@@ -31,6 +31,7 @@ function Spotify() {
   let spotify_refresh_token = ''
 
   React.useEffect(() => {
+    setSongFromStorage()
     dynamicLogin()
   }, [])
 
@@ -203,6 +204,21 @@ function Spotify() {
     } catch(err) { console.error(err) }
   }
 
+  async function setSongFromStorage() {
+    const songData: any = await storage.get('songData')
+    if (!songData || !songData.name || !songData.artist || !songData.coverImg || !songData.id || !songData.colors) {
+      return
+    }
+    setSpotifyState(prevState => {return {
+      ...prevState,
+      trackName: songData.name,
+      trackAuthor: songData.artist,
+      trackCoverImg: songData.coverImg,
+      trackId: songData.id,
+      colors: songData.colors
+    }})
+  }
+
   async function getTrack() {
     try {
       await secureStorage.setPassword("roosevelt")
@@ -229,6 +245,13 @@ function Spotify() {
           trackId: res.item.id,
           colors: colors as any
         }})
+        await storage.set('songData', {
+          name: res.item.name, 
+          artist: res.item.artists[0].name, 
+          coverImg: res.item.album.images[1].url,
+          id: res.item.id,
+          colors: colors
+        })
         currentTrackId.current = res.item.id
       }
     } catch(err) { 

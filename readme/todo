@@ -34,3 +34,8 @@
 - only get colors on track change
 - save track info in storage and display it on startup
 - get track errors are because of lack of asynchronicity in useEffect
+- icon selection
+- hide spotify and calendar on first open
+- website blocking
+- resizable areas
+- storing songData for offline spotify visual
