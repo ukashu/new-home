@@ -29,3 +29,7 @@
 - move websites date to different key
 - google event colors
 - google event loading state
+- spotify loading state/ no track state
+- if initial getTrack fails, abort
+- only get colors on track change
+- save track info in storage and display it on startup

@@ -67,3 +67,18 @@ img {
   }
 }
 /*SCROLING TEXT ANIMATION*/
+
+/*APPEAR*/
+@keyframes appear {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+#image {  
+  /* This section calls the slideInFromLeft animation we defined above */
+  animation: 0.2s ease-out 0s 1 appear;
+}

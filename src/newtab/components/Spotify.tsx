@@ -12,7 +12,7 @@ function Spotify() {
     trackAuthor: '',
     trackCoverImg: '',
     trackId: '',
-    colors: [[0, 0, 0],[246,246,246]],
+    colors: [[0, 0, 0],[0,0,0]],
     // linear-gradient(321deg, #C00C3C 0%, rgba(0,0,0,1.0) 0.01%, rgba(246,246,246,1.0) 100%) conic-gradient(from 90deg at 50.17% 60.67%, rgba(246,246,246,1.0), rgba(102,103,98,1.0) 70%)
   })
   const CLIENT_ID = process.env.PLASMO_PUBLIC_SPOTIFY_CLIENT_ID
@@ -190,15 +190,17 @@ function Spotify() {
       res = await res.json()
       if (res.error) { throw new Error(`getTrack error`) }
       //get colors from canvas
-      let colors = await getColors(res.item.album.images[1].url)
-      setSpotifyState((prevState) => { return {
-        ...prevState,
-        trackName: res.item.name,
-        trackAuthor: res.item.artists[0].name,
-        trackCoverImg: res.item.album.images[1].url,
-        trackId: res.item.id,
-        colors: colors as any
-      }})
+      if (res.item.id !== spotifyState.trackId) {
+        let colors = await getColors(res.item.album.images[1].url)
+        setSpotifyState((prevState) => { return {
+          ...prevState,
+          trackName: res.item.name,
+          trackAuthor: res.item.artists[0].name,
+          trackCoverImg: res.item.album.images[1].url,
+          trackId: res.item.id,
+          colors: colors as any
+        }})
+      }
     } catch(err) { 
       secureStorage.remove("spotify_access_token")
       console.error(err)
@@ -222,17 +224,21 @@ function Spotify() {
 }
 
   return (
-    <div 
-    className="min-h-[150px] aspect-video w-full flex flex-col p-2 rounded-lg"
-    style={{backgroundImage: `linear-gradient(321deg, #C00C3C 0%, rgba(${spotifyState.colors[0][0]},${spotifyState.colors[0][1]},${spotifyState.colors[0][2]},1.0) 0.01%, rgba(${spotifyState.colors[1][0]},${spotifyState.colors[1][1]},${spotifyState.colors[1][2]},1.0) 100%)`}}
-    >
-      <div className="h-2/3 flex flex-row justify-between">
+    <div className="min-h-[150px] aspect-video w-full bg-black flex flex-col rounded-lg">
+      <div id="image" key={spotifyState.trackCoverImg} 
+      className="min-h-[150px] aspect-video w-full flex flex-col p-2 rounded-lg"
+      style={{backgroundImage: `linear-gradient(321deg, #C00C3C 0%, rgba(${spotifyState.colors[0][0]},${spotifyState.colors[0][1]},${spotifyState.colors[0][2]},1.0) 0.01%, rgba(${spotifyState.colors[1][0]},${spotifyState.colors[1][1]},${spotifyState.colors[1][2]},1.0) 100%)`}}>
+        <div className="h-2/3 flex flex-row justify-between">
+        {spotifyState.trackCoverImg ?
         <img src={spotifyState.trackCoverImg} className="h-full aspect-square rounded drop-shadow-[0_1.2px_1.2px_rgba(200,200,200,1)]"></img>
-        <div className="h-full w-full flex flex-col justify-center items-center text-center font-bold text-sm drop-shadow-[0_1.2px_1.2px_rgba(100,100,100,0.8)] overflow-hidden" style={{color: spotifyState.colors[0][1]>175 ? 'rgb(5, 5, 5)' : 'rgb(240, 240, 240)'}}>
-          <h3 id="title" className="m-0 truncate max-w-full">{spotifyState.trackName}</h3>
-          <p id="artist" className="m-0 truncate max-w-full text-xs">{spotifyState.trackAuthor}</p>
+        :<></>}
+          <div className="h-full w-full flex flex-col justify-center items-center text-center font-bold text-sm drop-shadow-[0_1.2px_1.2px_rgba(100,100,100,0.8)] overflow-hidden" style={{color: spotifyState.colors[0][1]>175 ? 'rgb(5, 5, 5)' : 'rgb(240, 240, 240)'}}>
+            <h3 id="title" className="m-0 truncate max-w-full">{spotifyState.trackName}</h3>
+            <p id="artist" className="m-0 truncate max-w-full text-xs">{spotifyState.trackAuthor}</p>
+          </div>
         </div>
       </div>
+      
     </div>
   )
 }
