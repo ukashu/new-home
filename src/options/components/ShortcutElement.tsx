@@ -10,7 +10,7 @@ export default function ShortcutElement(props) {
   }
 
   return (
-    <div className="h-[30px] text-slate-200 flex flex-row">
+    <div className="h-[30px] w-full text-slate-200 flex flex-row items-center justify-between">
       <img src={faviconURL(props.name)}/> 
       <p>{props.name}</p>
       <button onClick={props.delete} className=" bg-red-800 p-2 flex items-center justify-center">DELETE</button>

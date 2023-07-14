@@ -57,7 +57,7 @@ export default function ShortcutInputs(props: Props) {
   }
 
   return (
-      <div className="flex flex-col w-full items-center justify-center gap-2 text-slate-200 pt-20">
+      <div className="flex flex-col w-full items-center justify-center p-2 gap-2 text-slate-200 pt-20">
         {shortcuts}
         <label>
         Add shortcut: <input name="newShortcut" value={shortcutName} onChange={e => setShortcutName(e.target.value)} onKeyDown={event => (event.key === 'Enter') && addShortcut(shortcutName)} className=" text-black"></input>

@@ -109,6 +109,13 @@ img {
   text-shadow: 0 0 1px #cccccc;
 }
 
+button {
+  background: linear-gradient(209deg, #343434 0%, #111 100%);
+  border-radius: 0.25rem;
+  padding: 0.5rem;
+  color: #838383;
+}
+
 button:hover {
   animation: 0.5s ease-out 0s 1 highlightText;
   text-shadow: 0 0 1px #cccccc;

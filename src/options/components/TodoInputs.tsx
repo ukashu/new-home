@@ -29,7 +29,7 @@ export default function TodoInputs(props: Props) {
     } else {
       for (let i in data as any) {
         rows.push(
-        <div key={i} className="h-[30px] text-slate-200 flex flex-row"> 
+        <div key={i} className="h-[30px] w-full text-slate-200 flex flex-row justify-between items-center"> 
           <p>{i}</p>
           <button key={i} onClick={() => removeTodo(i, props.type)} className=" bg-red-800 p-2 flex items-center justify-center">DELETE</button>
         </div>
