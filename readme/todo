@@ -39,4 +39,5 @@
 - website blocking
 - resizable areas
 - storing songData for offline spotify visual
-- fix resizing
+- fix resizing OR DONT
+- sometimes newTab loads slow (try first conentful paint maybe?)
