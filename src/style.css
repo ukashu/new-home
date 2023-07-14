@@ -124,4 +124,5 @@ button:hover {
 body {
   background: linear-gradient(209deg, #343434 0%, #111 100%);
   background-color: #343434;
+  background-attachment: fixed;
 }
