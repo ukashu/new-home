@@ -15,6 +15,8 @@ export default function Tick(props: { state: boolean, date: string, name: string
       await storage.set(props.name, data)
     } else {
       data.push(props.date)
+      //sort data
+      data.sort()
       await storage.set(props.name, data)
     }
     setCompleted(prevState => !prevState)
@@ -34,6 +36,5 @@ export default function Tick(props: { state: boolean, date: string, name: string
         <path d="M12.625 1.60875L11.3913 0.375L6.5 5.26625L1.60875 0.375L0.375 1.60875L5.26625 6.5L0.375 11.3913L1.60875 12.625L6.5 7.73375L11.3913 12.625L12.625 11.3913L7.73375 6.5L12.625 1.60875Z" fill="#606060"/>
       </svg>
     </div>
-
   )
 }
