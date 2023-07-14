@@ -6,7 +6,7 @@ export default function Checkbox(props: { state: boolean, onClick: () => void })
   return (
     props.state ?
     <div className='h-full aspect-square' onClick={props.onClick}>
-      <AiOutlineCheck color='red' size="20" style={{position: "absolute"}}/>
+      <AiOutlineCheck color='#e4e4e7' size="20" style={{position: "absolute"}}/>
     </div>
     :
     <div className='h-full aspect-square' onClick={props.onClick}>
