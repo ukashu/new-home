@@ -9,7 +9,8 @@ import { Storage } from "@plasmohq/storage"
 
 type Props = {
   name: string,
-  columns: Array<string>
+  columns: Array<string>,
+  icon: string
 }
 
 export default function Habit(props: Props) {
@@ -46,7 +47,7 @@ export default function Habit(props: Props) {
       <div className="flex flex-row h-[3em] w-full items-center justify-center gap-2">
         <Tooltip message={props.name}>
           <div className="bg-zinc-200 h-[3em] aspect-square rounded-sm flex items-center justify-center">
-            <Icons icon={props.name as any}/>
+            <Icons icon={props.icon}/>
           </div>
         </Tooltip>
         {ticks}

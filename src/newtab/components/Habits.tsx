@@ -31,7 +31,7 @@ export default function Habits() {
     const data = await storage.get('habits')
     if (data) {
       for (let i in data as any) {
-        rows.push(<Habit name={data[i]} columns={dateArray} key={data[i]}/>)
+        rows.push(<Habit name={i} columns={dateArray} key={i} icon={data[i]}/>)
       }
       setHabits(rows)
     }

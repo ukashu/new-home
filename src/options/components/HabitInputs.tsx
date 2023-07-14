@@ -28,13 +28,16 @@ export default function HabitInputs(props: Props) {
     const data = await storage.get('habits')
     if (!data) {
       //intialize storage
-      await storage.set('habits', [])
+      await storage.set('habits', {})
     } else {
       for (let i in data as any) {
         rows.push(
-          <div key={data[i]} className="h-[30px] w-full text-slate-200 flex flex-row justify-between items-center">
-            <p>{data[i]}</p>
-            <button onClick={() => removeHabit(data[i])} className=" bg-red-800 p-2 flex items-center justify-center">DELETE</button>
+          <div key={i} className="h-[30px] w-full text-slate-200 gap-1 flex flex-row items-center">
+            <div className=" bg-zinc-200 p-1 rounded-sm">
+              <Icons icon={data[i]}/>
+            </div>
+            <p>{i}</p>
+            <button onClick={() => removeHabit(i)} className=" bg-red-800 p-2 flex items-center justify-center ml-auto">DELETE</button>
           </div>
         )
       }
@@ -42,24 +45,24 @@ export default function HabitInputs(props: Props) {
     }
   }
 
-  const addHabit = async(habitName) => {
+  const addHabit = async(habitName, icon) => {
     let data: any = await storage.get('habits')
     if (!data) { return }
-    if (data.indexOf(habitName) != -1) {
-      return "already_in_storage"
-    } else {
-      data.push(habitName)
-      await storage.set('habits', data)
-      await storage.set(habitName, [])
-      setHabitName('')
-      generateAndSetHabits()
+    if (habitName in data) { return "already_in_storage"}
+    const newData = {
+      ...data,
+      [habitName]: icon
     }
+    await storage.set('habits', newData)
+    await storage.set(habitName, [])
+    setHabitName('')
+    generateAndSetHabits()
   }
 
   const removeHabit = async(habitName) => {
     let data: any = await storage.get('habits')
-    if (data.indexOf(habitName) != -1) {
-      data.splice(data.indexOf(habitName), 1)
+    if (habitName in data) {
+      delete data[habitName]
       await storage.set('habits', data)
       await storage.remove(habitName)
       generateAndSetHabits()
@@ -72,7 +75,7 @@ export default function HabitInputs(props: Props) {
       <div className="flex flex-col w-full items-center justify-center p-2 gap-2 text-slate-200 pt-20">
         {habits}
         <label>
-        Add habit: <input name="newHabit" maxLength={25} value={habitName} onChange={e => setHabitName(e.target.value)} onKeyDown={event => (event.key === 'Enter') && addHabit(habitName)} className=" text-black"></input>
+        Add habit: <input name="newHabit" maxLength={25} value={habitName} onChange={e => setHabitName(e.target.value)} onKeyDown={event => (event.key === 'Enter') && addHabit(habitName, icon)} className=" text-black"></input>
         </label>
         <div className=" flex flex-row items-center h-[30px] gap-1">
           {iconsModalShown ? 
@@ -81,7 +84,7 @@ export default function HabitInputs(props: Props) {
             <Icons icon={icon as any}/>
           </div>
           }
-          <button onClick={() => addHabit(habitName)}>add habit</button>
+          <button onClick={() => addHabit(habitName, icon)}>add habit</button>
         </div> 
       </div>
   )
