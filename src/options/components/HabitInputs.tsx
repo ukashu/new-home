@@ -3,6 +3,8 @@ import "~style.css"
 
 import React from "react"
 import { Storage } from "@plasmohq/storage"
+import IconSelection from "./IconSelection"
+import Icons from "~newtab/components/reusable/Icons"
 
 type Props = {
 }
@@ -10,6 +12,8 @@ type Props = {
 export default function HabitInputs(props: Props) {
   const [habits, setHabits] = React.useState<any>()
   const [habitName, setHabitName] = React.useState<string>('')
+  const [iconsModalShown, setIconsModalShown] = React.useState(false)
+  const [icon, setIcon] = React.useState('')
 
   const storage = new Storage({
     area: "local"
@@ -70,7 +74,15 @@ export default function HabitInputs(props: Props) {
         <label>
         Add habit: <input name="newHabit" maxLength={25} value={habitName} onChange={e => setHabitName(e.target.value)} onKeyDown={event => (event.key === 'Enter') && addHabit(habitName)} className=" text-black"></input>
         </label>
-        <button onClick={() => addHabit(habitName)}>add habit</button>
+        <div className=" flex flex-row items-center h-[30px] gap-1">
+          {iconsModalShown ? 
+          <IconSelection setIcon={(iconName) => setIcon(iconName)} hideModal={() => setIconsModalShown(false)}/> :
+          <div onClick={() => {setIconsModalShown(prevState => !prevState)}} className=" bg-zinc-200 p-1 rounded-sm hover:cursor-pointer">
+            <Icons icon={icon as any}/>
+          </div>
+          }
+          <button onClick={() => addHabit(habitName)}>add habit</button>
+        </div> 
       </div>
   )
 }

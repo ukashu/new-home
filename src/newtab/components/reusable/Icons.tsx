@@ -16,7 +16,7 @@ import React from 'react'
 
 type Props = {
   name?: string,
-  icon: "BOOK" | "ABLETON" | "MUG" | "CALENDAR" | "CHAT" | "DICE" | "HEART" | "LIGHTNING" | "STOPWATCH" | "TROPHY" | "TOOLS" | "CAMERA" | "DUMBBELL" | "COMPUTER" | "CUSTOMERSERVICE" | "PHONE"
+  icon: string
 }
 
 export default function Icons(props: Props) {
