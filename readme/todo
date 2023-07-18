@@ -43,3 +43,6 @@
 - sometimes newTab loads slow (try first conentful paint maybe?)
 - better habit saving (sorting on add)
 - podcasts don't work
+- add/remove ticks to ui on window resize 
+- add data export/import
+- initially show instructions how to use

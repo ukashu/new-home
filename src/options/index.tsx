@@ -8,15 +8,11 @@ import TodoInputs from "./components/TodoInputs"
 function OptionsIndex() {
 
   return (
-    <div className="flex flex-row justify-between h-screen p-2 gap-2 font-[Inter]">
-      <div className=" flex flex-row gap-10">
+    <div className="flex flex-row justify-around h-screen m-10 gap-10 font-[Inter]">
         <HabitInputs/>
         <ShortcutInputs/>
-      </div>
-      <div className=" flex flex-row gap-10">
         <TodoInputs type="WORK"/>
         <TodoInputs type="LIFE"/>
-        </div>
     </div>
   )
 }

@@ -11,7 +11,7 @@ import {
   BsTools } from 'react-icons/bs'
 import { FaBook, FaDumbbell } from 'react-icons/fa'
 import { AiFillCustomerService, AiFillPhone } from 'react-icons/ai'
-import { RiComputerFill } from 'react-icons/ri'
+import { RiComputerFill, RiMoneyEuroBoxFill } from 'react-icons/ri'
 import React from 'react'
 
 type Props = {
@@ -26,8 +26,8 @@ export default function Icons(props: Props) {
       return (<FaBook size="2em" color="black"/>)
     case "ABLETON":
       return (<SiAbletonlive size="2em" color="black"/>)
-    case "CALENDAR":
-      return (<BsFillCalendarCheckFill size="2em" color="black"/>)
+    case "MONEY":
+      return (<RiMoneyEuroBoxFill size="2em" color="black"/>)
     case "CHAT":
       return (<BsFillChatRightDotsFill size="2em" color="black"/>)
     case "DICE":

@@ -7,7 +7,7 @@ type Props = {
 }
 
 export default function IconSelection(props: Props) {
-  const icons = ["", "BOOK", "ABLETON", "CALENDAR", "CHAT", "DICE", "HEART", "LIGHTNING", "STOPWATCH", "TROPHY", "TOOLS", "CAMERA", "DUMBBELL", "COMPUTER", "CUSTOMERSERVICE", "PHONE"]
+  const icons = ["", "BOOK", "ABLETON", "MONEY", "CHAT", "DICE", "HEART", "LIGHTNING", "STOPWATCH", "TROPHY", "TOOLS", "CAMERA", "DUMBBELL", "COMPUTER", "CUSTOMERSERVICE", "PHONE"]
 
   const renderIcons = () => {
     let iconElements = []
