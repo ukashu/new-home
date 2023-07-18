@@ -5,14 +5,14 @@ import { Storage } from "@plasmohq/storage"
 import PrettyText from "./reusable/PrettyText"
 
 type Props = {
-  author: string,
-  quote: string,
+  author: string
+  quote: string
 }
 
 function Quotes(props: Props) {
   const [quote, setQuote] = React.useState({
-    text: '',
-    author: ''
+    text: "",
+    author: ""
   })
 
   const storage = new Storage({
@@ -23,25 +23,27 @@ function Quotes(props: Props) {
     getAndSetQuote()
   })
 
-  const getAndSetQuote = async() => {
+  const getAndSetQuote = async () => {
     try {
-      const storedQuote: any = await storage.get('quote')
+      const storedQuote: any = await storage.get("quote")
       if (storedQuote) {
         setQuote({
           text: storedQuote.text,
           author: storedQuote.author
         })
       }
-    } catch(err) {console.error(err)}
+    } catch (err) {
+      console.error(err)
+    }
   }
 
   return (
-    <div className="min-h-[150px] aspect-video w-full bg-black flex flex-col p-2 rounded-lg break-normal text-slate-200 gap-1 text-center justify-between">
+    <div className="flex aspect-video min-h-[150px] w-full flex-col justify-between gap-1 break-normal rounded-lg bg-black p-2 text-center text-slate-200">
       <div className="text-xs font-bold">
-        <PrettyText text={quote.text} color='#FFFFFF'/>
+        <PrettyText text={quote.text} color="#FFFFFF" />
       </div>
       <div className="text-sm font-bold">
-        <PrettyText text={quote.author} color='#FFFFFF'/>
+        <PrettyText text={quote.author} color="#FFFFFF" />
       </div>
     </div>
   )

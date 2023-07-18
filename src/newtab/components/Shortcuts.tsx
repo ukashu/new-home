@@ -16,19 +16,19 @@ export default function Shortcuts() {
     generateAndSetShortcuts()
   }, [])
 
-  const generateAndSetShortcuts = async() => {
+  const generateAndSetShortcuts = async () => {
     let rows = []
-    const data = await storage.get('shortcuts')
-    if (data) { 
+    const data = await storage.get("shortcuts")
+    if (data) {
       for (let i in data as any) {
-        rows.push(<Shortcut key={data[i]} websiteURL={data[i]}/>)
+        rows.push(<Shortcut key={data[i]} websiteURL={data[i]} />)
       }
-      setShortcuts(rows) 
+      setShortcuts(rows)
     }
   }
 
   return (
-    <div className="min-h-[120px] max-h-[250px] aspect-video w-full flex flex-row p-2 rounded-lg break-normal text-slate-200 gap-1 text-center justify-around items-center flex-wrap mt-auto">
+    <div className="mt-auto flex aspect-video max-h-[250px] min-h-[120px] w-full flex-row flex-wrap items-center justify-around gap-1 break-normal rounded-lg p-2 text-center text-slate-200">
       {shortcuts}
     </div>
   )

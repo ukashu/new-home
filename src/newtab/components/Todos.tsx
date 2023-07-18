@@ -16,39 +16,48 @@ function Todos() {
     generateAndSetTodos()
   }, [])
 
-  const generateAndSetTodos = async() => {
+  const generateAndSetTodos = async () => {
     let rows = []
-    const mode = await storage.get('mode')
+    const mode = await storage.get("mode")
     if (!mode) {
-      await storage.set('mode', 'WORK')
+      await storage.set("mode", "WORK")
     }
     const data = await storage.get(mode)
-    if (!data) { return } 
+    if (!data) {
+      return
+    }
     for (let i in data as any) {
       rows.push(
-        <Todo key={i} name={i} completed={data[i]} remove={(state) => changeTodoState(i, mode, state)}/>
+        <Todo
+          key={i}
+          name={i}
+          completed={data[i]}
+          remove={(state) => changeTodoState(i, mode, state)}
+        />
       )
     }
     setTodos(rows)
   }
 
-  const changeTodoState = async(name, type, state) => {
+  const changeTodoState = async (name, type, state) => {
     let data: any = await storage.get(type)
-    if (!data) { return }
+    if (!data) {
+      return
+    }
     if (name in data) {
       data[name] = state
       storage.set(type, data)
     }
   }
 
-  chrome.runtime.onMessage.addListener(async(message, sender, callback) => {
-    if (message.action == 'modeChange') {
+  chrome.runtime.onMessage.addListener(async (message, sender, callback) => {
+    if (message.action == "modeChange") {
       generateAndSetTodos()
     }
   })
 
   return (
-    <div className="min-h-[150px] aspect-video w-full bg-black flex flex-col p-2 rounded-lg break-normal text-slate-200 gap-1 flex-grow">
+    <div className="flex aspect-video min-h-[150px] w-full flex-grow flex-col gap-1 break-normal rounded-lg bg-black p-2 text-slate-200">
       {todos}
     </div>
   )

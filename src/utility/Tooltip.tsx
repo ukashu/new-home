@@ -1,8 +1,10 @@
 export default function Tooltip({ message, children }) {
   return (
-  <div className="group relative flex">
+    <div className="group relative flex">
       {children}
-      <span className="absolute z-[1000] left-20 scale-0 transition-all rounded backdrop-blur p-2 text-xs text-white group-hover:scale-100">{message}</span>
-  </div>
+      <span className="absolute left-20 z-[1000] scale-0 rounded p-2 text-xs text-white backdrop-blur transition-all group-hover:scale-100">
+        {message}
+      </span>
+    </div>
   )
 }
