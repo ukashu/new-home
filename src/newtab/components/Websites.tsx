@@ -23,6 +23,12 @@ export default function Websites() {
     const data = await storage.get("domainStorage")
     const total: any = await storage.get("totalDomainStorage")
     if (data && total) {
+      rows = generateDomainComponents(data, total)
+    }
+    setDomains(rows)
+
+    function generateDomainComponents(data, total) {
+      let result = []
       //sort data
       let entries = Object.entries(data)
       let sorted = entries.sort((a: any, b: any) => b[1] - a[1])
@@ -32,29 +38,22 @@ export default function Websites() {
           continue
         }
         let percentage = Math.floor((Number(sorted[i][1]) / total) * 100)
-        rows.push(
-          <div
-            key={sorted[i][0]}
-            className=" flex flex-row items-center justify-between text-white">
+        result.push(
+          <div key={sorted[i][0]} className=" flex flex-row items-center justify-between text-white">
             <div className="w-3/12 flex-grow text-left font-bold">
               <PrettyText color="#FFFFFF" text={sorted[i][0]} />
             </div>
             <div className="mx-1 flex h-full w-6/12 flex-grow items-center justify-start">
-              <div
-                className={`h-[3px] rounded-md bg-zinc-600`}
-                style={{ width: `${percentage}%` }}></div>
+              <div className={`h-[3px] rounded-md bg-zinc-600`} style={{ width: `${percentage}%` }}></div>
             </div>
             <div className="w-3/12 flex-grow text-right font-bold">
-              <PrettyText
-                color="#FFFFFF"
-                text={`${sorted[i][1]}min / ${percentage}%`}
-              />
+              <PrettyText color="#FFFFFF" text={`${sorted[i][1]}min / ${percentage}%`} />
             </div>
           </div>
         )
       }
+      return result
     }
-    setDomains(rows)
   }
 
   return (

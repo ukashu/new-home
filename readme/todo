@@ -11,7 +11,7 @@
 - set types for storage generated state
 - on habit delete delete habit records also (or implement a cleanup function)
 - self sorting list for habit records (or just getting 14 latest records)
-- add prefix 'NH' to data saved in localstorage 
+- add prefix 'NH' to data saved in localstorage
 - fix file structure
 - adding shortcuts to storage
 - reading shortcuts from storage and generating components
@@ -23,7 +23,7 @@
 - add key props DONE
 - if you have two tabs open it counts the website twice? CHECK
 - check number of ticks on window resize
-- add prop types to components 
+- add prop types to components
 - sort websites by time spent DONE
 - websites percent bar
 - move websites date to different key
@@ -43,7 +43,7 @@
 - sometimes newTab loads slow (try first conentful paint maybe?)
 - better habit saving (sorting on add)
 - podcasts don't work
-- add/remove ticks to ui on window resize 
+- add/remove ticks to ui on window resize
 - add data export/import
 - initially show instructions how to use
 - refactor complex functions
