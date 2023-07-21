@@ -4,6 +4,104 @@ import { Storage } from "@plasmohq/storage"
 import { SecureStorage } from "@plasmohq/storage/secure"
 import React from "react"
 
+async function loginPKCE() {
+  const CLIENT_ID = process.env.PLASMO_PUBLIC_SPOTIFY_CLIENT_ID
+  const RESPONSE_TYPE = "code"
+  const REDIRECT_URI = `https://${chrome.runtime.id}.chromiumapp.org/`
+  const STATE = "meet" + Math.random().toString(36).substring(2, 15)
+  const SCOPE = "user-read-playback-state user-modify-playback-state"
+  const SHOW_DIALOG = "false"
+  const CODE_CHALLENGE_METHOD = "S256"
+  const CODE_VERIFIER = generateRandomString(100)
+  const CODE_CHALLENGE = await generateCodeChallenge(CODE_VERIFIER)
+
+  console.log("login")
+  const resUrl: any = await chrome.identity.launchWebAuthFlow({
+    url: createSpotifyEndpoint(),
+    interactive: true
+  })
+  let resParams = extractCodeAndState(resUrl)
+  let res: any = await fetch("https://accounts.spotify.com/api/token", generateTokenFetchOptions(resParams))
+  res = await res.json()
+  if (res.error || !res.access_token || !res.refresh_token) {
+    throw new Error(`getToken error`)
+  }
+  return { access_token: res.access_token, refresh_token: res.refresh_token }
+
+  function extractCodeAndState(url: string) {
+    let params = new URLSearchParams(url.split("?")[1])
+    let result = {
+      code: params.get("code"),
+      state: params.get("state")
+    }
+    if (result.code === null || result.state === null || result.state !== STATE) {
+      throw new Error("Authorization error")
+    }
+    return result
+  }
+
+  function generateRandomString(length: number) {
+    let text = ""
+    let possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+
+    for (let i = 0; i < length; i++) {
+      text += possible.charAt(Math.floor(Math.random() * possible.length))
+    }
+    return text
+  }
+
+  async function generateCodeChallenge(codeVerifier) {
+    function base64encode(string) {
+      return btoa(String.fromCharCode.apply(null, new Uint8Array(string)))
+        .replace(/\+/g, "-")
+        .replace(/\//g, "_")
+        .replace(/=+$/, "")
+    }
+
+    const encoder = new TextEncoder()
+    const data = encoder.encode(codeVerifier)
+    const digest = await window.crypto.subtle.digest("SHA-256", data)
+
+    return base64encode(digest)
+  }
+
+  function createSpotifyEndpoint() {
+    let oauth2_spotify_url = `https://accounts.spotify.com/authorize\
+?client_id=${encodeURIComponent(CLIENT_ID)}\
+&response_type=${encodeURIComponent(RESPONSE_TYPE)}\
+&redirect_uri=${encodeURIComponent(REDIRECT_URI)}\
+&state=${encodeURIComponent(STATE)}\
+&scope=${encodeURIComponent(SCOPE)}\
+&show_dialog=${encodeURIComponent(SHOW_DIALOG)}\
+&code_challenge_method=${encodeURIComponent(CODE_CHALLENGE_METHOD)}\
+&code_challenge=${encodeURIComponent(CODE_CHALLENGE)}`
+
+    return oauth2_spotify_url
+  }
+
+  function generateTokenFetchOptions(resParams: { code: string; state: string }) {
+    let result = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      body: generateTokenFetchBody(resParams)
+    }
+    return result
+  }
+
+  function generateTokenFetchBody(resParams: { code: string; state: string }) {
+    const result = new URLSearchParams({
+      code: resParams.code,
+      redirect_uri: REDIRECT_URI,
+      grant_type: "authorization_code",
+      client_id: CLIENT_ID,
+      code_verifier: CODE_VERIFIER
+    })
+    return result
+  }
+}
+
 function Spotify() {
   const [spotifyState, setSpotifyState] = React.useState({
     isLoading: true,
@@ -23,7 +121,11 @@ function Spotify() {
     setSongFromStorage()
     const login = async () => {
       await secureStorage.setPassword("roosevelt")
-      await dynamicLogin()
+      const data = await dynamicLogin()
+      if (data.access_token && data.refresh_token) {
+        await secureStorage.set("spotify_access_token", data.access_token)
+        await secureStorage.set("spotify_refresh_token", data.refresh_token)
+      }
       setSpotifyState((prevState) => {
         return {
           ...prevState,
@@ -49,7 +151,7 @@ function Spotify() {
       return
     }
     getTrack()
-    const getTrackData = setInterval(() => {
+    const getTrackData = setInterval(async () => {
       getTrack()
     }, 5000)
 
@@ -60,105 +162,6 @@ function Spotify() {
     area: "local"
   })
   const secureStorage = new SecureStorage()
-
-  async function loginPKCE() {
-    const CLIENT_ID = process.env.PLASMO_PUBLIC_SPOTIFY_CLIENT_ID
-    const RESPONSE_TYPE = "code"
-    const REDIRECT_URI = `https://${chrome.runtime.id}.chromiumapp.org/`
-    const STATE = "meet" + Math.random().toString(36).substring(2, 15)
-    const SCOPE = "user-read-playback-state user-modify-playback-state"
-    const SHOW_DIALOG = "false"
-    const CODE_CHALLENGE_METHOD = "S256"
-    const CODE_VERIFIER = generateRandomString(100)
-    const CODE_CHALLENGE = await generateCodeChallenge(CODE_VERIFIER)
-
-    console.log("login")
-    const resUrl: any = await chrome.identity.launchWebAuthFlow({
-      url: createSpotifyEndpoint(),
-      interactive: true
-    })
-    let resParams = extractCodeAndState(resUrl)
-    let response: any = await fetch("https://accounts.spotify.com/api/token", generateTokenFetchOptions(resParams))
-    response = await response.json()
-    if (response.error || !response.access_token || !response.refresh_token) {
-      throw new Error(`getToken error`)
-    }
-    await secureStorage.set("spotify_access_token", response.access_token)
-    await secureStorage.set("spotify_refresh_token", response.refresh_token)
-
-    function extractCodeAndState(url: string) {
-      let params = new URLSearchParams(url.split("?")[1])
-      let result = {
-        code: params.get("code"),
-        state: params.get("state")
-      }
-      if (result.code === null || result.state === null || result.state !== STATE) {
-        throw new Error("Authorization error")
-      }
-      return result
-    }
-
-    function generateRandomString(length: number) {
-      let text = ""
-      let possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
-
-      for (let i = 0; i < length; i++) {
-        text += possible.charAt(Math.floor(Math.random() * possible.length))
-      }
-      return text
-    }
-
-    async function generateCodeChallenge(codeVerifier) {
-      function base64encode(string) {
-        return btoa(String.fromCharCode.apply(null, new Uint8Array(string)))
-          .replace(/\+/g, "-")
-          .replace(/\//g, "_")
-          .replace(/=+$/, "")
-      }
-
-      const encoder = new TextEncoder()
-      const data = encoder.encode(codeVerifier)
-      const digest = await window.crypto.subtle.digest("SHA-256", data)
-
-      return base64encode(digest)
-    }
-
-    function createSpotifyEndpoint() {
-      let oauth2_spotify_url = `https://accounts.spotify.com/authorize\
-?client_id=${encodeURIComponent(CLIENT_ID)}\
-&response_type=${encodeURIComponent(RESPONSE_TYPE)}\
-&redirect_uri=${encodeURIComponent(REDIRECT_URI)}\
-&state=${encodeURIComponent(STATE)}\
-&scope=${encodeURIComponent(SCOPE)}\
-&show_dialog=${encodeURIComponent(SHOW_DIALOG)}\
-&code_challenge_method=${encodeURIComponent(CODE_CHALLENGE_METHOD)}\
-&code_challenge=${encodeURIComponent(CODE_CHALLENGE)}`
-
-      return oauth2_spotify_url
-    }
-
-    function generateTokenFetchOptions(resParams: { code: string; state: string }) {
-      let result = {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded"
-        },
-        body: generateTokenFetchBody(resParams)
-      }
-      return result
-    }
-
-    function generateTokenFetchBody(resParams: { code: string; state: string }) {
-      const result = new URLSearchParams({
-        code: resParams.code,
-        redirect_uri: REDIRECT_URI,
-        grant_type: "authorization_code",
-        client_id: CLIENT_ID,
-        code_verifier: CODE_VERIFIER
-      })
-      return result
-    }
-  }
 
   async function loginWithRefreshToken(refresh_token) {
     const CLIENT_ID = process.env.PLASMO_PUBLIC_SPOTIFY_CLIENT_ID
@@ -172,8 +175,7 @@ function Spotify() {
     if (res.error || !res.access_token || !res.refresh_token) {
       throw new Error(`refresh error`)
     }
-    await secureStorage.set("spotify_access_token", res.access_token)
-    await secureStorage.set("spotify_refresh_token", res.refresh_token)
+    return { access_token: res.access_token, refresh_token: res.refresh_token }
 
     function generateTokenFetchBody(refresh_token) {
       const result = new URLSearchParams({
@@ -199,13 +201,13 @@ function Spotify() {
   async function dynamicLogin() {
     const accessToken = await secureStorage.get("spotify_access_token")
     if (accessToken) {
-      return
+      return null
     }
     const refreshToken = await secureStorage.get("spotify_refresh_token")
     if (refreshToken) {
-      await loginWithRefreshToken(refreshToken)
+      return await loginWithRefreshToken(refreshToken)
     } else {
-      await loginPKCE()
+      return await loginPKCE()
     }
   }
 
@@ -231,7 +233,6 @@ function Spotify() {
       await secureStorage.setPassword("roosevelt")
       const token = await secureStorage.get("spotify_access_token")
       const trackData = await getTrackData(token)
-      //get colors from canvas
       if (trackData.item.id !== currentTrackId.current) {
         const colors = await getColors(trackData.item.album.images[1].url)
         setTrack(trackData, colors)

@@ -30,6 +30,9 @@ const addToDomainStorage = async (domain) => {
   //if not initialized initialize
   if (!date) {
     await storage.set("date", getDate(Date.now()))
+    let quote: any = await fetch("https://stoic-quotes.com/api/quote")
+    quote = await quote.json()
+    await storage.set("quote", quote)
   }
   if (!data) {
     await storage.set("domainStorage", {})
