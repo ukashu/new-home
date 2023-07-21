@@ -46,3 +46,4 @@
 - add/remove ticks to ui on window resize 
 - add data export/import
 - initially show instructions how to use
+- refactor complex functions
