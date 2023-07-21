@@ -122,7 +122,7 @@ function Spotify() {
     const login = async () => {
       await secureStorage.setPassword("roosevelt")
       const data = await dynamicLogin()
-      if (data.access_token && data.refresh_token) {
+      if (data && data.access_token && data.refresh_token) {
         await secureStorage.set("spotify_access_token", data.access_token)
         await secureStorage.set("spotify_refresh_token", data.refresh_token)
       }
