@@ -21,7 +21,27 @@ function Spotify() {
 
   React.useEffect(() => {
     setSongFromStorage()
-    dynamicLogin()
+    const login = async () => {
+      await secureStorage.setPassword("roosevelt")
+      await dynamicLogin()
+      setSpotifyState((prevState) => {
+        return {
+          ...prevState,
+          isLoggedIn: true
+        }
+      })
+    }
+    login().catch(async (err) => {
+      await secureStorage.remove("spotify_access_token")
+      await secureStorage.remove("spotify_refresh_token")
+      setSpotifyState((prevState) => {
+        return {
+          ...prevState,
+          isLoggedIn: false
+        }
+      })
+      console.error(err)
+    })
   }, [])
 
   React.useEffect(() => {
@@ -52,37 +72,19 @@ function Spotify() {
     const CODE_VERIFIER = generateRandomString(100)
     const CODE_CHALLENGE = await generateCodeChallenge(CODE_VERIFIER)
 
-    try {
-      console.log("login")
-      const resUrl: any = await chrome.identity.launchWebAuthFlow({
-        url: createSpotifyEndpoint(),
-        interactive: true
-      })
-      let resParams = extractCodeAndState(resUrl)
-      let response: any = await fetch("https://accounts.spotify.com/api/token", generateTokenFetchOptions(resParams))
-      response = await response.json()
-      if (response.error || !response.access_token) {
-        throw new Error(`getToken error`)
-      }
-      await secureStorage.set("spotify_access_token", response.access_token)
-      if (response.refresh_token) {
-        await secureStorage.set("spotify_refresh_token", response.refresh_token)
-      }
-      setSpotifyState((prevState) => {
-        return {
-          ...prevState,
-          isLoggedIn: true
-        }
-      })
-    } catch (err) {
-      setSpotifyState((prevState) => {
-        return {
-          ...prevState,
-          isLoggedIn: false
-        }
-      })
-      console.error(err)
+    console.log("login")
+    const resUrl: any = await chrome.identity.launchWebAuthFlow({
+      url: createSpotifyEndpoint(),
+      interactive: true
+    })
+    let resParams = extractCodeAndState(resUrl)
+    let response: any = await fetch("https://accounts.spotify.com/api/token", generateTokenFetchOptions(resParams))
+    response = await response.json()
+    if (response.error || !response.access_token || !response.refresh_token) {
+      throw new Error(`getToken error`)
     }
+    await secureStorage.set("spotify_access_token", response.access_token)
+    await secureStorage.set("spotify_refresh_token", response.refresh_token)
 
     function extractCodeAndState(url: string) {
       let params = new URLSearchParams(url.split("?")[1])
@@ -160,36 +162,18 @@ function Spotify() {
 
   async function loginWithRefreshToken(refresh_token) {
     const CLIENT_ID = process.env.PLASMO_PUBLIC_SPOTIFY_CLIENT_ID
-    try {
-      console.log("get token from refresh")
-      let res: any = await fetch(
-        "https://accounts.spotify.com/api/token",
-        generateRefreshTokenFetchOptions(refresh_token)
-      )
-      res = await res.json()
-      if (res.error || !res.access_token) {
-        throw new Error(`refresh error`)
-      }
-      await secureStorage.set("spotify_access_token", res.access_token)
-      if (res.refresh_token) {
-        await secureStorage.set("spotify_refresh_token", res.refresh_token)
-      }
-      setSpotifyState((prevState) => {
-        return {
-          ...prevState,
-          isLoggedIn: true
-        }
-      })
-    } catch (err) {
-      secureStorage.remove("spotify_refresh_token")
-      setSpotifyState((prevState) => {
-        return {
-          ...prevState,
-          isLoggedIn: false
-        }
-      })
-      console.error(err)
+
+    console.log("refresh")
+    let res: any = await fetch(
+      "https://accounts.spotify.com/api/token",
+      generateRefreshTokenFetchOptions(refresh_token)
+    )
+    res = await res.json()
+    if (res.error || !res.access_token || !res.refresh_token) {
+      throw new Error(`refresh error`)
     }
+    await secureStorage.set("spotify_access_token", res.access_token)
+    await secureStorage.set("spotify_refresh_token", res.refresh_token)
 
     function generateTokenFetchBody(refresh_token) {
       const result = new URLSearchParams({
@@ -213,26 +197,15 @@ function Spotify() {
   }
 
   async function dynamicLogin() {
-    try {
-      await secureStorage.setPassword("roosevelt")
-      const accessToken = await secureStorage.get("spotify_access_token")
-      if (accessToken) {
-        setSpotifyState((prevState) => {
-          return {
-            ...prevState,
-            isLoggedIn: true
-          }
-        })
-        return
-      }
-      const refreshToken = await secureStorage.get("spotify_refresh_token")
-      if (refreshToken) {
-        await loginWithRefreshToken(refreshToken)
-      } else {
-        await loginPKCE()
-      }
-    } catch (err) {
-      console.error(err)
+    const accessToken = await secureStorage.get("spotify_access_token")
+    if (accessToken) {
+      return
+    }
+    const refreshToken = await secureStorage.get("spotify_refresh_token")
+    if (refreshToken) {
+      await loginWithRefreshToken(refreshToken)
+    } else {
+      await loginPKCE()
     }
   }
 
@@ -257,38 +230,16 @@ function Spotify() {
     try {
       await secureStorage.setPassword("roosevelt")
       const token = await secureStorage.get("spotify_access_token")
-      let res: any = await fetch(
-        "https://api.spotify.com/v1/me/player/currently-playing",
-        generateTrackFetchOptions(token)
-      )
-      res = await res.json()
-      if (res.error) {
-        throw new Error(`getTrack error`)
-      }
+      const trackData = await getTrackData(token)
       //get colors from canvas
-      if (res.item.id !== currentTrackId.current) {
-        let colors = await getColors(res.item.album.images[1].url)
-        setSpotifyState((prevState) => {
-          return {
-            ...prevState,
-            trackName: res.item.name,
-            trackAuthor: res.item.artists[0].name,
-            trackCoverImg: res.item.album.images[1].url,
-            trackId: res.item.id,
-            colors: colors
-          }
-        })
-        await storage.set("songData", {
-          name: res.item.name,
-          artist: res.item.artists[0].name,
-          coverImg: res.item.album.images[1].url,
-          id: res.item.id,
-          colors: colors
-        })
-        currentTrackId.current = res.item.id
+      if (trackData.item.id !== currentTrackId.current) {
+        const colors = await getColors(trackData.item.album.images[1].url)
+        setTrack(trackData, colors)
+        saveTrack(trackData, colors)
+        currentTrackId.current = trackData.item.id
       }
     } catch (err) {
-      secureStorage.remove("spotify_access_token")
+      await secureStorage.remove("spotify_access_token")
       setSpotifyState((prevState) => {
         return {
           ...prevState,
@@ -326,6 +277,41 @@ function Spotify() {
             [pixelTwo[0], pixelTwo[1], pixelTwo[2]]
           ])
         }
+      })
+    }
+
+    async function getTrackData(token) {
+      let res: any = await fetch(
+        "https://api.spotify.com/v1/me/player/currently-playing",
+        generateTrackFetchOptions(token)
+      )
+      res = await res.json()
+      if (res.error) {
+        throw new Error(`getTrack error`)
+      }
+      return res
+    }
+
+    function setTrack(track, colors) {
+      setSpotifyState((prevState) => {
+        return {
+          ...prevState,
+          trackName: track.item.name,
+          trackAuthor: track.item.artists[0].name,
+          trackCoverImg: track.item.album.images[1].url,
+          trackId: track.item.id,
+          colors: colors
+        }
+      })
+    }
+
+    async function saveTrack(track, colors) {
+      await storage.set("songData", {
+        name: track.item.name,
+        artist: track.item.artists[0].name,
+        coverImg: track.item.album.images[1].url,
+        id: track.item.id,
+        colors: colors
       })
     }
   }
