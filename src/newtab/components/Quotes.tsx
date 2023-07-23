@@ -20,8 +20,9 @@ function Quotes(props: Props) {
   })
 
   React.useEffect(() => {
+    console.log("running effect")
     getAndSetQuote()
-  })
+  }, [])
 
   const getAndSetQuote = async () => {
     try {
