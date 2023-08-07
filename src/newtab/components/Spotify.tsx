@@ -328,9 +328,11 @@ function Spotify() {
         }}>
         <div className="flex h-2/3 flex-row justify-between">
           {spotifyState.trackCoverImg ? (
-            <img
-              src={spotifyState.trackCoverImg}
-              className="aspect-square h-full rounded drop-shadow-[0_1.2px_1.2px_rgba(200,200,200,1)]"></img>
+            <a
+              href={`https://open.spotify.com/track/${spotifyState.trackId}`}
+              className="aspect-square h-full rounded drop-shadow-[0_1.2px_1.2px_rgba(200,200,200,1)]">
+              <img src={spotifyState.trackCoverImg}></img>
+            </a>
           ) : (
             <></>
           )}
