@@ -14,12 +14,11 @@ export default function Shortcut(props: Props) {
 
   return (
     <Tooltip key={props.websiteURL} message={props.websiteURL}>
-      <div
-        onClick={() => window.open(props.websiteURL, "_self")}
-        onMouseDown={(e) => e.button === 1 && window.open(props.websiteURL)}
+      <a
+        href={props.websiteURL}
         className="flex aspect-square h-[70px] cursor-pointer items-center justify-center rounded-lg bg-black text-slate-200">
         <img src={faviconURL(props.websiteURL)} />
-      </div>
+      </a>
     </Tooltip>
   )
 }
