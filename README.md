@@ -65,7 +65,15 @@ PLASMO_PUBLIC_GOOGLE_API_KEY='[Your google api key]'
 PLASMO_PUBLIC_SPOTIFY_CLIENT_ID='[Your Spotify Client id]'
 ```
 
-4. Finally, run the development server:
+4. Finally, make a production build:
+
+```bash
+pnpm build
+# or
+npm run build
+```
+
+Or run the development server if you'd like to edit the code:
 
 ```bash
 pnpm dev
@@ -80,15 +88,3 @@ For further guidance, [visit Plasmo Documentation](https://docs.plasmo.com/)
 ## Usage
 
 The extension will replace your browsers default new tab with a custom one. It will begin calculating time spent on various domains and will show you todays Stoic Quote. To add habits and tasks to track go to extension options. You can also add shortcuts that will show up on the new tab. You might have to experiment with the URL format to get the websites favicon to show up (most of the time it's `https://www.website.com` or `https://website.com`) You can add tasks to `WORK` or `LIFE` mode and change between the modes in the extensions popup.
-
-## Making production build
-
-Run the following:
-
-```bash
-pnpm build
-# or
-npm run build
-```
-
-This should create a production bundle for your extension, ready to be zipped and published to the stores.

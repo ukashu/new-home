@@ -43,7 +43,7 @@ To jest projekt napisany za pomocą [Plasmo](https://docs.plasmo.com/) i [`plasm
   <li>Aplikacja zarejestrowana w <a href="https://developer.spotify.com/">Spotify for Developers</a></li>
 </ul>
 
-Możesz uruchomić rozszerzenie bez rejestracji w Google Console i Spotify for Developers – będzie ono działać bez funkcji Kalendarza Google i Spotify API.
+Możesz uruchomić rozszerzenie bez rejestracji w Google Console i Spotify for Developers – będzie wtedy działać bez funkcji Kalendarza Google i Spotify API.
 
 ## Instalacja
 
@@ -65,7 +65,15 @@ PLASMO_PUBLIC_GOOGLE_API_KEY='[Twój klucz Google API]'
 PLASMO_PUBLIC_SPOTIFY_CLIENT_ID='[CLIENT ID aplikacji Spotify]'
 ```
 
-4. Uruchom development serwer:
+4. Wygeneruj build produkcyjny:
+
+```bash
+pnpm build
+# or
+npm run build
+```
+
+Lub uruchom serwer deweloperski jeżeli chcesz edytować kod aplikacji:
 
 ```bash
 pnpm dev
@@ -79,16 +87,4 @@ Aby uzyskać dalsze wskazówki, odwiedź [dokumentację Plasmo](https://docs.pla
 
 ## Używanie
 
-Rozszerzenie zastąpi domyślną nową kartę przeglądarki niestandardową. Rozpocznie obliczanie czasu spędzonego na różnych domenach i pokaże dzisiejszy Stoic Quote. Aby dodać nawyki i zadania do monitorowania, przejdź do opcji rozszerzenia. Możesz także dodać skróty, które pojawią się na nowej karcie. Być może będziesz musiał poeksperymentować z formatem adresu URL, aby wyświetlić favicon stron internetowych (w większości przypadków jest to `https://www.website.com` lub `https://website.com`). Możesz dodawać zadania do trybu `WORK` lub `LIFE` i zmieniać tryby w oknie popup rozszerzenia.
-
-## Tworzenie buildu produkcyjnego
-
-Uruchom poniższy skrypt:
-
-```bash
-pnpm build
-# or
-npm run build
-```
-
-Powinno to utworzyć build produkcyjny dla twojego rozszerzenia, gotowy do spakowania i opublikowania w sklepach.
+Rozszerzenie zastąpi domyślną nową kartę przeglądarki niestandardową stroną. Rozpocznie obliczanie czasu spędzonego na różnych domenach i pokaże dzisiejszą stoicką frazę. Aby dodać nawyki i zadania do monitorowania, przejdź do opcji rozszerzenia. Możesz także dodać skróty, które pojawią się na nowej karcie. Aby wyświetlić favicon stron internetowych trzeba wybrać odpowiedni format adresu URL (w większości przypadków jest to `https://www.website.com` lub `https://website.com`). Możesz dodawać zadania do trybu `WORK` lub `LIFE` i zmieniać tryby w oknie popup rozszerzenia.
