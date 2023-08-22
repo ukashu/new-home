@@ -6,7 +6,7 @@
 
 ## Description
 
-This is a Chromium extension replacing browsers default new tab with a custom productivity focused tab.
+This is a Chromium extension replacing browsers default new tab with a custom productivity focused application.
 
 ## Features
 

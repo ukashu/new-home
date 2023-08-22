@@ -6,7 +6,7 @@
 
 ## Opis
 
-Rozszerzenie Chromium zastępujące domyślną nową kartę przeglądarki niestandardową kartą skoncentrowaną na produktywności.
+Rozszerzenie Chromium zastępujące domyślną nową kartę przeglądarki aplikacją poprawiającą produktywność.
 
 ## Funkcje
 
